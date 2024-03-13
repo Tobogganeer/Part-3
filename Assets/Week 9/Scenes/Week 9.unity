@@ -3816,7 +3816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6491913700987384211}
-  type: 0
+  type: 3
 --- !u!212 &150802953268865269
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7121,7 +7121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1797549100245190485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f278b0413d5bb14e912abd94ce4e01a, type: 3}
+  m_Script: {fileID: 11500000, guid: bb0194e0746d83f49a0d973703ec254d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 6545997943602628296}

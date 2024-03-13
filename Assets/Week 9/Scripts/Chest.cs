@@ -32,4 +32,5 @@ public enum ChestType
     Villager,
     Merchant,
     Archer,
+    Thief,
 }
