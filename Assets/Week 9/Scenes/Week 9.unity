@@ -2114,6 +2114,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1073067498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1073067499}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1073067499
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073067498}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.4, y: -0.34000003, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1706716593571657851}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1136545787
 GameObject:
   m_ObjectHideFlags: 0
@@ -4442,6 +4473,7 @@ Transform:
   - {fileID: 5309975914422326279}
   - {fileID: 6189090834342454544}
   - {fileID: 8507640964769824610}
+  - {fileID: 1073067499}
   m_Father: {fileID: 5008454032956234274}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 7.9340997}
 --- !u!1 &1797549100245190485
@@ -7125,6 +7157,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 6545997943602628296}
+  dashTime: 0.3
+  dashSpeedMultiplier: 3
+  daggerPrefab: {fileID: 3871564979539789689, guid: 1a029d589283c354c8953e09188a499e, type: 3}
+  spawnPoint: {fileID: 1073067499}
+  spawnAngleRandomness: 10
+  numDaggers: 2
 --- !u!212 &7454560790921783272
 SpriteRenderer:
   m_ObjectHideFlags: 0
