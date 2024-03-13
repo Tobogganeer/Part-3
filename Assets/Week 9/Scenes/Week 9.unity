@@ -1373,6 +1373,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 6491913701516345902}
+--- !u!1 &643536453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 643536454}
+  m_Layer: 0
+  m_Name: Spawn Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &643536454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643536453}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071067, w: 0.70710695}
+  m_LocalPosition: {x: -0.03, y: 0, z: 0.000000007450581}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7728133075684496494}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1001 &676232074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5827,7 +5858,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8016798456586444770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f278b0413d5bb14e912abd94ce4e01a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e9b3e83de4cec244891f9ddddd0eb20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 6320965441753652661}
@@ -7003,10 +7034,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8475697662470120084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f278b0413d5bb14e912abd94ce4e01a, type: 3}
+  m_Script: {fileID: 11500000, guid: 99fedaa56fc4181458ed11c835bfd2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   highlight: {fileID: 1127101254343119421}
+  arrowPrefab: {fileID: 7907720046717811147, guid: f9e594c80aae57547813f7fa7e3b995a, type: 3}
+  spawnPoint: {fileID: 643536454}
 --- !u!1 &7185034485526578366
 GameObject:
   m_ObjectHideFlags: 0
@@ -7185,7 +7218,8 @@ Transform:
   m_LocalPosition: {x: -0.06, y: -0.613, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 643536454}
   m_Father: {fileID: 5433014066246288233}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 64.152}
 --- !u!4 &7985841585657812258
