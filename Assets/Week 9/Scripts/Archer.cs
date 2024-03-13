@@ -13,4 +13,6 @@ public class Archer : Villager
         destination = transform.position; // Stop moving
         Instantiate(arrowPrefab, spawnPoint.position, spawnPoint.rotation); // Spawn arrow
     }
+
+    public override ChestType GetChestType() => ChestType.Archer;
 }

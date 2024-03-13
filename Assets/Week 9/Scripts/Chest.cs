@@ -9,12 +9,21 @@ public class Chest : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        animator.SetBool("IsOpened", true);
+        // Only open/close if they are the right type
+        if (MatchesChestType(collision))
+            animator.SetBool("IsOpened", true);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        animator.SetBool("IsOpened", false);
+        if (MatchesChestType(collision))
+            animator.SetBool("IsOpened", false);
+    }
+
+    bool MatchesChestType(Component comp)
+    {
+        // Make sure the object is a villager and they are the correct type or we are open to everyone
+        return comp.TryGetComponent(out Villager villager) && (type == ChestType.Villager || villager.GetChestType() == type);
     }
 }
 
