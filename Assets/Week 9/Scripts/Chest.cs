@@ -5,6 +5,7 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     public Animator animator;
+    public ChestType type;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -15,4 +16,11 @@ public class Chest : MonoBehaviour
     {
         animator.SetBool("IsOpened", false);
     }
+}
+
+public enum ChestType
+{
+    Villager,
+    Merchant,
+    Archer,
 }
