@@ -22,6 +22,6 @@ public class CharacterControl : MonoBehaviour
     private void Update()
     {
         // Show the current character's type, if there is a current character
-        selectedCharacterText.text = SelectedVillager ? SelectedVillager.GetChestType().ToString() : "No Character";
+        selectedCharacterText.text = SelectedVillager ? SelectedVillager.GetType().Name : "No Character";
     }
 }
