@@ -16,16 +16,24 @@ public class UIDemo : MonoBehaviour
     public Color startColour;
     public Color endColour;
 
-    private VisualElement sr;
+    [Space]
+    public TMPro.TMP_Dropdown selectionDropdown;
+
+    private VisualElement visuals;
 
     private void Start()
     {
-        sr = GetComponent<VisualElement>();
+        visuals = GetComponent<VisualElement>();
     }
 
     public void SetColour(float value0to60)
     {
         float t = value0to60 / 60f;
-        sr.color = Color.Lerp(startColour, endColour, t);
+        visuals.color = Color.Lerp(startColour, endColour, t);
+    }
+
+    public void SetImageFromDropdown(int index)
+    {
+        visuals.sprite = selectionDropdown.options[index].image;
     }
 }
