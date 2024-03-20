@@ -14,6 +14,7 @@ public class Thief : Villager
     public int numDaggers = 2;
 
     float baseSpeed;
+    Coroutine currentDash;
 
     protected override void Start()
     {
@@ -25,7 +26,12 @@ public class Thief : Villager
 
     protected override void Attack()
     {
-        StartCoroutine(Dash());
+        // Stop the current dash (if applicable)
+        if (currentDash != null)
+            StopCoroutine(currentDash);
+
+        // Start our dash
+        currentDash = StartCoroutine(Dash());
 
         // Spawn in the daggers
         //for (int i = 0; i < numDaggers; i++)
