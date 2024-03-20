@@ -15,7 +15,7 @@ public class SliderClock : MonoBehaviour
 
     private void Update()
     {
-        // Just tick the slider each second
-        slider.value += Time.deltaTime;
+        // Just tick the slider each second (wrap around when it maxes out)
+        slider.value = (slider.value + Time.deltaTime) % slider.maxValue;
     }
 }
