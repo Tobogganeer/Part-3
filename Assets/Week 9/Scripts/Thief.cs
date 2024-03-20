@@ -66,4 +66,9 @@ public class Thief : Villager
     }
 
     public override ChestType GetChestType() => ChestType.Thief;
+
+    public override string ToString()
+    {
+        return "Sneaky Thief";
+    }
 }

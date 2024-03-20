@@ -86,4 +86,10 @@ public class Villager : MonoBehaviour
     }
 
     public virtual ChestType GetChestType() => ChestType.Villager;
+
+    public override string ToString()
+    {
+        // Return our class name by default
+        return GetType().ToString();
+    }
 }

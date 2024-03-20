@@ -5,23 +5,32 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
+    private static CharacterControl instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
+
     public TMPro.TMP_Text selectedCharacterText;
 
     public static Villager SelectedVillager { get; private set; }
     public static void SetSelectedVillager(Villager villager)
     {
-        if(SelectedVillager != null)
+        if (SelectedVillager != null)
         {
             SelectedVillager.Selected(false);
         }
         SelectedVillager = villager;
         SelectedVillager.Selected(true);
+
+        // Show the current character's type (seems we assume it will never be null)
+        instance.selectedCharacterText.text = SelectedVillager.ToString();
     }
 
-    // Might not be the most efficient to do it in update, but it's easy
-    private void Update()
+    private void Start()
     {
-        // Show the current character's type, if there is a current character
-        selectedCharacterText.text = SelectedVillager ? SelectedVillager.GetType().Name : "No Character";
+        // Initial text
+        selectedCharacterText.text = "No Character";
     }
 }
