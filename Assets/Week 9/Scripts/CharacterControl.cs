@@ -13,24 +13,35 @@ public class CharacterControl : MonoBehaviour
 
 
     public TMPro.TMP_Text selectedCharacterText;
+    public Villager[] villagers;
 
     public static Villager SelectedVillager { get; private set; }
     public static void SetSelectedVillager(Villager villager)
     {
         if (SelectedVillager != null)
-        {
             SelectedVillager.Selected(false);
-        }
-        SelectedVillager = villager;
-        SelectedVillager.Selected(true);
 
-        // Show the current character's type (seems we assume it will never be null)
-        instance.selectedCharacterText.text = SelectedVillager.ToString();
+        SelectedVillager = villager;
+        if (SelectedVillager != null)
+            SelectedVillager.Selected(true);
+
+        // Show the current character's type (if we have one selected)
+        instance.selectedCharacterText.text = SelectedVillager == null ? "No Character" : SelectedVillager.ToString();
     }
 
     private void Start()
     {
         // Initial text
         selectedCharacterText.text = "No Character";
+    }
+
+
+    public void SelectFromDropdown(int index)
+    {
+        // Check if the index is valid
+        if (index < 0 || index >= villagers.Length)
+            SetSelectedVillager(null);
+        else
+            SetSelectedVillager(villagers[index]);
     }
 }
