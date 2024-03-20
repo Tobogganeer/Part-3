@@ -15,12 +15,16 @@ public class Villager : MonoBehaviour
     Vector2 movement;
     protected float speed = 3;
 
+    [HideInInspector] public float scale = 1f;
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         destination = transform.position;
         Selected(false);
+
+        scale = 1f;
     }
     public void Selected(bool value)
     {
@@ -48,11 +52,11 @@ public class Villager : MonoBehaviour
         //flip the x direction of the game object & children to face the direction we're walking
         if(movement.x > 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-scale, scale, scale);
         }
         else if (movement.x < 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(scale, scale, scale);
         }
 
         //stop moving if we're close enough to the target
