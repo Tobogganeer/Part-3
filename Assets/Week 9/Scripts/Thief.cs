@@ -40,6 +40,9 @@ public class Thief : Villager
         destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         speed = baseSpeed * dashSpeedMultiplier;
 
+        // Store our move direction to spawn daggers going that way
+        Vector3 direction = destination - (Vector2)spawnPoint.position;
+
         yield return new WaitForSeconds(dashTime);
 
         // Reset speed
@@ -48,11 +51,14 @@ public class Thief : Villager
         base.Attack();
 
         // Spawn in the daggers
+        Vector3 daggerSpawnPos = spawnPoint.position;
+        Vector3 daggerTarget = spawnPoint.position + direction;
+
         yield return new WaitForSeconds(daggerDelays.x);
-        SpawnDagger(spawnPoint.position, destination);
+        SpawnDagger(daggerSpawnPos, daggerTarget);
 
         yield return new WaitForSeconds(daggerDelays.y);
-        SpawnDagger(spawnPoint.position, destination);
+        SpawnDagger(daggerSpawnPos, daggerTarget);
     }
 
     void SpawnDagger(Vector3 position, Vector3 target)
