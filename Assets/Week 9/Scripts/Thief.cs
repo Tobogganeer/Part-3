@@ -14,7 +14,6 @@ public class Thief : Villager
     public int numDaggers = 2;
 
     float baseSpeed;
-    float timer;
 
     protected override void Start()
     {
@@ -24,25 +23,27 @@ public class Thief : Villager
         baseSpeed = speed;
     }
 
-    protected override void Update()
-    {
-        base.Update();
-
-        timer -= Time.deltaTime;
-        // Move quicker when we are dashing
-        speed = timer <= 0 ? baseSpeed : baseSpeed * dashSpeedMultiplier;
-    }
-
     protected override void Attack()
     {
-        base.Attack();
-        // Set destination to mouse
-        destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        timer = dashTime; // Will increase our speed
+        StartCoroutine(Dash());
 
         // Spawn in the daggers
-        for (int i = 0; i < numDaggers; i++)
-            SpawnDagger(spawnPoint.position, destination);
+        //for (int i = 0; i < numDaggers; i++)
+        //    SpawnDagger(spawnPoint.position, destination);
+    }
+
+    IEnumerator Dash()
+    {
+        // Set destination and wait
+        destination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        speed = baseSpeed * dashSpeedMultiplier;
+
+        yield return new WaitForSeconds(dashTime);
+
+        // Reset speed
+        speed = baseSpeed;
+        // Play attack animation
+        base.Attack();
     }
 
     void SpawnDagger(Vector3 position, Vector3 target)
