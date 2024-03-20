@@ -11,7 +11,7 @@ public class Thief : Villager
     public GameObject daggerPrefab;
     public Transform spawnPoint;
     public float spawnAngleRandomness = 10f;
-    public int numDaggers = 2;
+    public Vector2 daggerDelays = new Vector2(0.1f, 0.2f);
 
     float baseSpeed;
     Coroutine currentDash;
@@ -31,11 +31,7 @@ public class Thief : Villager
             StopCoroutine(currentDash);
 
         // Start our dash
-        currentDash = StartCoroutine(Dash());
-
-        // Spawn in the daggers
-        //for (int i = 0; i < numDaggers; i++)
-        //    SpawnDagger(spawnPoint.position, destination);
+        currentDash = StartCoroutine(Dash());   
     }
 
     IEnumerator Dash()
@@ -50,6 +46,13 @@ public class Thief : Villager
         speed = baseSpeed;
         // Play attack animation
         base.Attack();
+
+        // Spawn in the daggers
+        yield return new WaitForSeconds(daggerDelays.x);
+        SpawnDagger(spawnPoint.position, destination);
+
+        yield return new WaitForSeconds(daggerDelays.y);
+        SpawnDagger(spawnPoint.position, destination);
     }
 
     void SpawnDagger(Vector3 position, Vector3 target)
