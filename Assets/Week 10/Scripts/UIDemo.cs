@@ -1,19 +1,26 @@
+#define USE_UI_IMAGE
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+#if USE_UI_IMAGE
+using VisualElement = UnityEngine.UI.Image;
+#else
+using VisualElement = SpriteRenderer;
+#endif
 
-[RequireComponent(typeof(Image))]
+[RequireComponent(typeof(VisualElement))]
+
 public class UIDemo : MonoBehaviour
 {
     public Color startColour;
     public Color endColour;
 
-    private Image sr;
+    private VisualElement sr;
 
     private void Start()
     {
-        sr = GetComponent<Image>();
+        sr = GetComponent<VisualElement>();
     }
 
     public void SetColour(float value0to60)
