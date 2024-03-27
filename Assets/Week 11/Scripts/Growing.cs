@@ -22,9 +22,14 @@ public class Growing : MonoBehaviour
 
     IEnumerator GrowShapes()
     {
-        StartCoroutine(Square());
+        running++;
+
+        yield return StartCoroutine(Square());
+        yield return new WaitForSeconds(1f);
         StartCoroutine(Triangle());
         Circle();
+
+        running--;
     }
 
     void Update()
@@ -50,10 +55,6 @@ public class Growing : MonoBehaviour
     }
     IEnumerator Triangle()
     {
-        // Wait for the square coroutine to finish
-        if (coroutine != null)
-            yield return coroutine;
-
         running++;
 
         float size = 0;
