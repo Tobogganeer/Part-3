@@ -25,9 +25,10 @@ public class Growing : MonoBehaviour
         running++;
 
         yield return StartCoroutine(Square());
+        // Wait for a second to start the triangle
         yield return new WaitForSeconds(1f);
         StartCoroutine(Triangle());
-        Circle();
+        StartCoroutine(Circle());
 
         running--;
     }
@@ -69,7 +70,7 @@ public class Growing : MonoBehaviour
 
         running--;
     }
-    void Circle()
+    IEnumerator Circle()
     {
         running++;
 
@@ -80,6 +81,7 @@ public class Growing : MonoBehaviour
             Vector3 scale = new Vector3(size, size, size);
             circle.transform.localScale = scale;
             circleTMP.text = "Cirlce: " + scale;
+            yield return null;
         }
         while (size > 0)
         {
@@ -87,6 +89,7 @@ public class Growing : MonoBehaviour
             Vector3 scale = new Vector3(size, size, size);
             circle.transform.localScale = scale;
             circleTMP.text = "Cirlce: " + scale;
+            yield return null;
         }
 
         running--;
