@@ -75,6 +75,9 @@ public class Growing : MonoBehaviour
         running++;
 
         float size = 0;
+        // Loop forever (I know it said to use a while loop but I <3 goto)
+        LoopStart:
+
         while (size < 5)
         {
             size += Time.deltaTime;
@@ -92,6 +95,8 @@ public class Growing : MonoBehaviour
             yield return null;
         }
 
-        running--;
+        goto LoopStart;
+
+        //running--;
     }
 }
