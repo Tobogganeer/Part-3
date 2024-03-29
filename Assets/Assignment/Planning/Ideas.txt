@@ -1,0 +1,21 @@
+Tower defense game:
+- Place towers against waves of different enemies
+- Statics for selecting towers, tower placement, etc
+- Inheritance for towers and enemies
+- Coroutines for tower shooting (maybe burst modes, etc)
+
+RTS/Swat game:
+- Control different units to complete objectives
+- Inheritance for different units
+- Statics for selecting units
+- Coroutines for movement, shooting/attacking, etc
+
+Angry birds game:
+- Inheritance for different bird types
+- Coroutines for bird abilities
+- Statics for selecting birds, score, etc
+
+Tycoon/factory builder game:
+- Inheritance for different building types
+- Statics for money/score, selecting buildings, etc
+- Coroutines for producer buildings, convertors etc (and maybe building animations)

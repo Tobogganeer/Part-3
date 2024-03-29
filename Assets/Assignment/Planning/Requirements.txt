@@ -1,0 +1,8 @@
+Requirements:
+- Deconstruction (composition, inheritance, what does it acheive, functionality of child classes, etc)
+- Static function & variable
+- Base class inherited by at least 2 child classes (each must add a unique fn/var and override a fn)
+- Use of coroutines
+
+Constraints:
+- None really, can use the new InputSystem as well
