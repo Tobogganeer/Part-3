@@ -17,6 +17,11 @@ PseudocodeFeauture.cs (feature here)
   - Pseudocode here
 
 
-Chosen:
+Chosen: Factory builder game
+- Limited area to build a factory to produce the maximum output
+- Reaching certain "goals" (units of output per second) unlocks new buildings
+- Buildings (order of unlock): Output, miner, conveyor, assembler/combiner, underground conveyor, splitter
+- Toolbar to place buildings at the bottom
+- UI for stats (output rates) at the top
 
 Features:
