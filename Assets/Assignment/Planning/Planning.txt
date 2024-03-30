@@ -24,7 +24,7 @@ Chosen: Factory builder game
 - Toolbar to place buildings at the bottom
 - UI for stats (output rates) at the top
 
-Features: World, WorldTile, TileDescriptor, Tile, TileInput, TileOutput, BuildingDescriptor, FactoryBuilding, [Building subclasses], Product, ProductObject, Recipe, Goal, Toolbar, HUD, FactoryManager
+Features: World, WorldTile, TileDescriptor, Tile, TileInput, TileOutput, BuildingDescriptor, FactoryBuilding, [Building subclasses], Product, ProductObject, Recipe, Goal, Toolbar, BuildingPlacer, HUD, FactoryManager, RecipeSelectMenu
 
 World.cs
 - Stores the state of the world (placed buildings, where resources are, etc)
@@ -88,17 +88,24 @@ BuildingDescriptor.cs
 - Stores the basic information of a building (size and tiles)
 - ScriptableObject
 - Pseudocode:
-  - Variables: size, tiles (list of TileDescriptors)
+  - Variables: size, tiles (list of TileDescriptors), buildingType, sprite
   - No functions or anything else: basic data container
 
 FactoryBuilding.cs (see subclasses at bottom)
 - Meat and bones of the game - represents a building (assemblers, conveyors, anything the player can place)
 - Used to mine, transport, process, and outbox items
-- Has a SpriteRenderer and BoxCollider2D
+- Has a SpriteRenderer and BoxCollider2D (sprite set in inspector)
 - Stores the tiles that make up the building
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here ============================== DO THIS
+  - Variables: descriptor, tiles, created
+  - Properties: inputs, outputs, buildingType
+  - Start => create tiles from descriptor.tiles
+  - virtual fn Place(position) => set position, set created = true
+  - virtual fn Tick()
+  - Update => if created call Tick() (only called once the building is actually placed)
+  - virtual fn OnInput(product)
+  - virtual bool WillAccept(product)
+  - virtual fn OnMouseDown() => may open menus for certain subclasses (i.e. recipe selector for assemblers)
 
 Product.cs
 - Represents an item that is mined, produced, etc.
@@ -115,44 +122,67 @@ ProductObject.cs
   - Start => get SpriteRenderer, set its sprite using the list in FactoryManager
 
 Recipe.cs
-- Input
-- Functionality
-- Components
+- Stores what inputs will produce what outputs in an assembler
+- ScriptableObject
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: inputs, outputs, craftingTime
+  - Not much else, maybe one util function
+  - fn CanBeCraftedBy(assembler) => returns true if the assembler's inventory has all required components
+  - ^^^ but that function would likely be in the assembler itself, single responsibility and all
 
 Goal.cs
-- Input
-- Functionality
-- Components
+- Represents a production goal needed to unlock the next building
+- ScriptableObject
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: products, unlockedBuildingType
+  - Nothing else really
 
 Toolbar.cs
-- Input
-- Functionality
-- Components
+- Shows building icons for players to click to place buildings
+- More buildings appear as they are unlocked
+- Will have another small script that handles clicks and sends that info to this script
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: buildingButtons, buildingPlacer
+  - Start => EnableCurrentlyUnlockedBuildings()
+  - fn EnableCurrentlyUnlockedBuildings() => turn on the buttons that are unlocked
+  - fn BuildingButtonPressed(buildingType) => call buildingPlacer.StartPlacement(buildingType)
+
+BuildingPlacer.cs
+- Code used to handle the placement of buildings
+- Shows the "ghost" of the building to be placed
+- Verifies that there is room for the building
+- Pseudocode:
+  - Variables: currentGhost
+  - fn StartPlacement(buildingType) => set currentGhost to building prefab from FactoryManager dict
+  - Update => if ghost != null: move ghost to mouse pos, check for left click (TryPlaceGhost()), check for right click (destroy ghost/cancel)
+  - fn TryPlaceGhost() => Check World.CanPlaceBuilding, then call World.PlaceBuilding if it is possible
 
 HUD.cs
-- Input
-- Functionality
-- Components
+- Shows the current production goals and what building it will unlock
+- Has various UI components (text elements for production stats, icons for building sprites, etc)
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: nextUnlockImage, currentGoalText[], nextUnlockText, currentGoal
+  - static fn SetCurrentGoal(goal) => update currentGoal, nextUnlockText, nextUnlockImage
+  - static fn SetProduct(product) => update the corresponding currentGoalText (check the currentGoal to get the index)
 
 FactoryManager.cs
-- Input
-- Functionality
-- Components
+- Manages lists and data for other scripts (sprites, ScriptableObjects, goals, etc)
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: goals, tileSprites, buildings, productSprites, recipes, instance
+  - Awake => set singleton instance
+  - Needed functions tbd as development progresses
+
+RecipeSelectMenu.cs
+- Shows available recipes for the assembler
+- Pops up when the assembler is clicked
+- Unique instance of menu per assembler (part of prefab, makes it a bit easier)
+- Will have another small script that handles clicks and sends that info to this script
+- Pseudocode
+  - Variables: target, menu
+  - Start => get reference to target (Assembler script on same object)
+  - fn Open() => turn the menu GameObject on
+  - fn RecipeChosen(recipe) => set target's current recipe to the clicked recipe and close the window (call Close())
+  - fn Close() => turn the menu off
 
 [SUBCLASSES]
 
