@@ -20,12 +20,11 @@ PseudocodeFeauture.cs (feature here)
 Chosen: Factory builder game
 - Limited area to build a factory to produce the maximum output
 - Reaching certain "goals" (units of output per second) unlocks new buildings
-- Buildings (order of unlock): Output, miner, conveyor, assembler/combiner, underground conveyor, splitter
+- Buildings (order of unlock): Outbox, miner, conveyor, assembler/combiner, underground conveyor, splitter
 - Toolbar to place buildings at the bottom
 - UI for stats (output rates) at the top
 
-Features: World, WorldTile, Tile, TileInput, TileOutput, FactoryBuilding, [Building subclasses], Product,
-    ProductObject, Recipe, Goal, Toolbar, HUD, FactoryManager
+Features: World, WorldTile, TileDescriptor, Tile, TileInput, TileOutput, BuildingDescriptor, FactoryBuilding, [Building subclasses], Product, ProductObject, Recipe, Goal, Toolbar, HUD, FactoryManager
 
 World.cs
 - Stores the state of the world (placed buildings, where resources are, etc)
@@ -46,53 +45,74 @@ WorldTile.cs
   - Variables: spriteRenderer, tileType
   - Start => set sprite to match the tileType (get the sprites from FactoryManager)
 
-Tile.cs
-- Input
-- Functionality
-- Components
+TileDescriptor.cs
+- Used to store tile information in the inspector
+- Stores inputs, outputs
+- Raw C# class
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: inputs, outputs
+  - fn CreateTile(building) => returns a new tile with the inputs and outputs
+
+Tile.cs
+- Represents a part of a building (occupies one WorldTile)
+- Stores a list of inputs and outputs
+- Notifies the building when an item it trying to enter the building
+- Raw C# class
+- Pseudocode:
+  - Variables: inputs, outputs, building, rotation
+  - Tile(building) => set reference to building, init inputs and outputs, set rotation
+  - fn HasInput(direction) => returns true if we have an input in that direction (accounts for rotation)
+  - fn HasOutput(direction) => returns true if we have an output in that direction (accounts for rotation)
+  - fn TryGetInput(direction, out input) => returns the input if we have it
+  - fn TryGetOutput(direction, out output) => returns the output if we have it
 
 TileInput.cs
-- Input
-- Functionality
-- Components
+- Represents a place where an item can enter a building
+- Raw C# class
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: direction, tile, building
+  - fn Init(tile) => set reference to tile and building (direction set in inspector)
+  - fn CanInput(product) => returns true if the building will accept the product
+  - fn Input(product) => calls the building's OnInput() fn
 
 TileOutput
-- Input
-- Functionality
-- Components
+- Represents a place where an item can leave a building
+- No components - raw class
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: direction, tile, building
+  - fn Init(tile) => set reference to tile and building (direction set in inspector)
+  - fn CanOutput(product) => returns true if there is a place to output the item (checks buildings from World for inputs)
+  - fn Output(product) => puts the product into the attached input
+
+BuildingDescriptor.cs
+- Stores the basic information of a building (size and tiles)
+- ScriptableObject
+- Pseudocode:
+  - Variables: size, tiles (list of TileDescriptors)
+  - No functions or anything else: basic data container
 
 FactoryBuilding.cs (see subclasses at bottom)
-- Input
-- Functionality
-- Components
+- Meat and bones of the game - represents a building (assemblers, conveyors, anything the player can place)
+- Used to mine, transport, process, and outbox items
+- Has a SpriteRenderer and BoxCollider2D
+- Stores the tiles that make up the building
 - Pseudocode:
   - Variables: 
-  - Pseudocode here
+  - Pseudocode here ============================== DO THIS
 
 Product.cs
-- Input
-- Functionality
-- Components
+- Represents an item that is mined, produced, etc.
+- Raw C# class, essentially just a ProductID and an amount
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: id, amount 
+  - Not much else for it to do...
 
 ProductObject.cs
-- Input
-- Functionality
-- Components
+- Used to display a Product in the world
+- Has a SpriteRenderer
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: productID
+  - Start => get SpriteRenderer, set its sprite using the list in FactoryManager
 
 Recipe.cs
 - Input

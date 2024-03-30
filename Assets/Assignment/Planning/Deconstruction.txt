@@ -19,7 +19,7 @@ The base FactoryBuilding class will keep track of all the tiles in the building,
 What is the specific functionality of each inheriting class?
 See Planning.txt for specifics, but here is the high-level overview:
 
-Output: The final destination for products. Products enter and add to the global store/count of that product, then are destroyed.
+Outbox: The final destination for products. Products enter and add to the global store/count of that product, then are destroyed.
 Miner: Can only be placed on resource WorldTiles. Sends that product out through the Output at specified intervals.
 Conveyor: Used to send items from one place to other. Accepts items on three sides, outputs them at the last side.
 Assembler/combiner: Takes in items and produces new ones. 2x2 building, accepts 4 inputs on one side, outputs them on 1 tile of the opposite side
