@@ -99,13 +99,14 @@ FactoryBuilding.cs (see subclasses at bottom)
 - Pseudocode:
   - Variables: descriptor, tiles, created
   - Properties: inputs, outputs, buildingType
-  - Start => create tiles from descriptor.tiles
+  - virtual Start => create tiles from descriptor.tiles
   - virtual fn Place(position) => set position, set created = true
   - virtual fn Tick()
   - Update => if created call Tick() (only called once the building is actually placed)
-  - virtual fn OnInput(product)
-  - virtual bool WillAccept(product)
+  - virtual fn OnInput(product) => does nothing by default
+  - virtual bool WillAccept(product) => returns true by default
   - virtual fn OnMouseDown() => may open menus for certain subclasses (i.e. recipe selector for assemblers)
+  - virtual fn CanBePlacedOn(worldTiles) => returns true if all tiles have no buildings on them
 
 Product.cs
 - Represents an item that is mined, produced, etc.
@@ -168,8 +169,9 @@ HUD.cs
 FactoryManager.cs
 - Manages lists and data for other scripts (sprites, ScriptableObjects, goals, etc)
 - Pseudocode:
-  - Variables: goals, tileSprites, buildings, productSprites, recipes, instance
+  - Variables: goals, tileSprites, buildings, productSprites, recipes, instance, [product counts]
   - Awake => set singleton instance
+  - static fn OnProductOutboxed(product) => increment appropriate counts
   - Needed functions tbd as development progresses
 
 RecipeSelectMenu.cs
@@ -186,8 +188,64 @@ RecipeSelectMenu.cs
 
 [SUBCLASSES]
 
-PseudocodeFeauture.cs
-- Input
+Outbox, miner, conveyor, assembler/combiner, underground conveyor, splitter
+
+Virtual fns:
+-Start
+-Place(position)
+-Tick()
+-OnInput(product)
+-WillAccept(product)
+-OnMouseDown()
+-CanBePlacedOn(worldTiles)
+
+Outbox.cs
+- 3x3 tiles
+- Inputs on all sides
+- Adds to the FactoryManager product counts
+- Pseudocode:
+  - override fn OnInput(product) => FactoryManager.OnProductOutboxed(product)
+
+Miner.cs
+- 2x2 tiles
+- 1 output
+- Outputs the resource it is placed on
+- Pseudocode:
+  - Variables: mineDelay
+  - override fn Place(position) base + start Mine coroutine
+  - coroutine Mine() => infinite loop that outputs a resource and waits for mineDelay
+  - override fn CanBePlacedOn(worldTiles) => return base fn + check if at least one tile has a resource
+
+Conveyor.cs
+- 1 tile
+- 1 output, 3 inputs
+- Just transports an item forward
+- References a SpriteRenderer to display the item
+- Pseudocode:
+  - Variables: transportDelay, hasProduct, itemSpriteRenderer
+  - override WillAccept(product) => returns true if hasProduct is false
+  - override OnInput(product) => starts TransportProduct coroutine
+  - coroutine TransportProduct(product) => hasProduct = true, sets itemSpriteRenderer using FactoryManager dict, waits for transportDelay, waits for valid output, outputs item, hasProduct = false, sets itemSpriteRenderer to nothing
+
+Assembler.cs
+- 2x2 tiles
+- 1 output, 4 inputs
+- Recipe can be set with a GUI
+- Takes in items and creates a new item according to the recipe
+- Pseudocode:
+  - Variables: 
+  - Pseudocode here
+
+UndergroundConveyor.cs
+- 1 tile per end (input and output)
+- Input has an input, output has an output (shocking)
+- Components
+- Pseudocode:
+  - Variables: 
+  - Pseudocode here
+
+Splitter.cs
+- 2x1 tiles
 - Functionality
 - Components
 - Pseudocode:
