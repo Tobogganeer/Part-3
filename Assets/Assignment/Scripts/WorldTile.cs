@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class WorldTile : MonoBehaviour
 {
-    void Start()
-    {
+    public ProductID Product { get; set; }
+    public Vector2Int GridPosition { get; set; }
 
+    // Called by the World when it spawns this tile
+    public void Init(ProductID product, Vector2Int gridPosition)
+    {
+        Product = product;
+        GridPosition = gridPosition;
     }
 
-    void Update()
+    private void Start()
     {
-
+        // Set our sprite
+        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.tileSprites.dict[Product];
     }
 }
 

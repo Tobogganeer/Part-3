@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class FactoryManager : MonoBehaviour
 {
-    void Start()
+    public static FactoryManager Instance { get; private set; }
+    private void Awake()
     {
-
+        Instance = this;
     }
 
-    void Update()
-    {
-
-    }
+    public SerializableDictionary<ProductID, Sprite> tileSprites;
 }
 
 /*
