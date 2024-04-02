@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class FactoryBuilding : MonoBehaviour
 {
-    public Vector2Int gridPosition;
+    [SerializeField] BuildingDescriptor descriptor;
+
+    public Vector2Int GridPosition { get; private set; }
+    public Tile[] Tiles { get; private set; }
+    public bool Created { get ; private set; }
+    public List<Product> Products { get; private set; } = new List<Product>();
+
+    // From the descriptor
+    public Vector2Int Size => descriptor.size;
+    public BuildingType Type => descriptor.type;
+    public Sprite Sprite => descriptor.sprite;
 
     public virtual bool WillAccept(Product product, TileInput input) => true;
 }
