@@ -26,7 +26,7 @@ public class Conveyor : FactoryBuilding
     {
         // Calculate the start and center pos (output comes later)
         Vector2 center = World.GridToWorldPosition(GridPosition);
-        Vector2 inputPosition = center + (Vector2)input.GetCurrentDirection().Offset() * World.TileSize / 2f;
+        Vector2 inputPosition = center + (Vector2)GetInputDirection(input).Offset() * World.TileSize / 2f;
 
         // Spawn in the actual item sprite
         ProductObject visuals = product.SpawnObject(inputPosition);
@@ -61,6 +61,7 @@ public class Conveyor : FactoryBuilding
     }
 
     protected virtual float GetTransportTime() => transportDelay;
+    protected virtual Direction GetInputDirection(TileInput input) => input.GetCurrentDirection();
     protected virtual bool HasValidOutput(Product product) => Outputs.Any(output => output.CanOutput(product));
     protected virtual Direction GetOutputDirection(Product product) => Outputs.First(output => output.CanOutput(product)).GetCurrentDirection();
     protected virtual void OutputProduct(Product product) => Outputs.FirstOrDefault(output => output.CanOutput(product))?.Output(product);
