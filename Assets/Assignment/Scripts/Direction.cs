@@ -54,4 +54,10 @@ public static class DirectionExtensions
     {
         return (int)direction * 90f;
     }
+
+    public static Direction Opposite(this Direction direction)
+    {
+        // If it's stupid but it works then it ain't stupid
+        return direction.RotateRight().RotateRight();
+    }
 }

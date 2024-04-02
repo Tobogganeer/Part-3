@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Tile
@@ -11,7 +12,7 @@ public class Tile
 
     public Tile(FactoryBuilding building, TileDescriptor descriptor)
     {
-        Position = descriptor.position;
+        Position = descriptor.position; // TODO: Account for rotation here
         Building = building;
         Inputs = new TileInput[descriptor.inputs.Length];
         Outputs = new TileOutput[descriptor.outputs.Length];
@@ -21,6 +22,55 @@ public class Tile
             Inputs[i] = new TileInput(descriptor.inputs[i], this);
         for (int i = 0; i < descriptor.outputs.Length; i++)
             Outputs[i] = new TileOutput(descriptor.outputs[i], this);
+    }
+
+    /// <summary>
+    /// Returns true if any input is facing in the given <paramref name="direction"/>.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public bool HasInput(Direction direction)
+    {
+        return Inputs.Any((input) => input.GetCurrentDirection() == direction);
+    }
+
+    /// <summary>
+    /// Returns true if any output is facing in the given <paramref name="direction"/>.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public bool HasOutput(Direction direction)
+    {
+        return Outputs.Any((output) => output.GetCurrentDirection() == direction);
+    }
+
+    public bool TryGetInput(Direction direction, out TileInput input)
+    {
+        // There might be a way to linq-ify this? not sure
+        input = null;
+        foreach (TileInput tileInput in Inputs)
+        {
+            if (tileInput.GetCurrentDirection() == direction)
+            {
+                input = tileInput;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool TryGetOutput(Direction direction, out TileOutput output)
+    {
+        output = null;
+        foreach (TileOutput tileOutput in Outputs)
+        {
+            if (tileOutput.GetCurrentDirection() == direction)
+            {
+                output = tileOutput;
+                return true;
+            }
+        }
+        return false;
     }
 }
 
