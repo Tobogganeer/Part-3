@@ -63,6 +63,11 @@ public class World : MonoBehaviour
         return worldPositionOffset - halfWorldSize + halfTileSize;
     }
 
+    /// <summary>
+    /// Returns true if the <paramref name="building"/> is in a valid area to be placed.
+    /// </summary>
+    /// <param name="building"></param>
+    /// <returns></returns>
     public static bool CanPlaceBuilding(FactoryBuilding building)
     {
         List<WorldTile> worldTiles = new List<WorldTile>();
@@ -79,6 +84,10 @@ public class World : MonoBehaviour
         return building.CanBePlacedOn(worldTiles) && worldTiles.All((tile) => !tile.HasBuilding());
     }
 
+    /// <summary>
+    /// Places the <paramref name="building"/> in the world.
+    /// </summary>
+    /// <param name="building"></param>
     public static void PlaceBuilding(FactoryBuilding building)
     {
         // We assume it can be placed here... big trust being thrown around
@@ -90,6 +99,10 @@ public class World : MonoBehaviour
             instance.tileToBuilding[tile.GridPosition] = building;
     }
 
+    /// <summary>
+    /// Removes the <paramref name="building"/> from the world and destroys it.
+    /// </summary>
+    /// <param name="building"></param>
     public static void RemoveBuilding(FactoryBuilding building)
     {
         // Obliterate that structure
