@@ -29,11 +29,11 @@ public enum ProductID
 
     // Primary products (all amounts are tbd)
     /// <summary>
-    /// Recipe: Can + Tomato
+    /// Recipe: Tomato
     /// </summary>
     Sauce,
     /// <summary>
-    /// Recipe: Tomato
+    /// Recipe: Can + Tomato
     /// </summary>
     CannedTomatoes,
     /// <summary>
@@ -68,10 +68,6 @@ public enum ProductID
     /// Recipe: Dough + Water
     /// </summary>
     Bread,
-    /// <summary>
-    /// Recipe: Juice + Can
-    /// </summary>
-    CannedJuice,
 
     // Legendary item
     /// <summary>
