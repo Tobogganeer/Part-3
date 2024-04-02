@@ -9,7 +9,9 @@ public class Product
     [field: SerializeField]
     public ProductID ID { get; private set; }
     [field: SerializeField]
-    public int Amount { get; private set; }
+    public int Amount { get; set; }
+
+    public Sprite Sprite => FactoryManager.Instance.productSprites[ID];
 
     public Product(ProductID id, int amount)
     {
