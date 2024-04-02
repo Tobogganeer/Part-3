@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class WorldTile : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+WorldTile.cs
+- Displays the state of one tile in the world (really just if any resources are there)
+- Updates its graphics to match the state when it is created
+- Has a SpriteRenderer attached
+- Pseudocode:
+  - Variables: spriteRenderer, tileType
+  - Start => set sprite to match the tileType (get the sprites from FactoryManager)
+
+*/

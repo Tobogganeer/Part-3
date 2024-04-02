@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class BuildingDescriptor : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+BuildingDescriptor.cs
+- Stores the basic information of a building (size and tiles)
+- ScriptableObject
+- Pseudocode:
+  - Variables: size, tiles (list of TileDescriptors), buildingType, sprite
+  - No functions or anything else: basic data container
+
+*/

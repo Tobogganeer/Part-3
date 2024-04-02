@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Product : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+Product.cs
+- Represents an item that is mined, produced, etc.
+- Raw C# class, essentially just a ProductID and an amount
+- Pseudocode:
+  - Variables: id, amount 
+  - Not much else for it to do...
+
+*/

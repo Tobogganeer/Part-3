@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class ProductObject : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+ProductObject.cs
+- Used to display a Product in the world
+- Has a SpriteRenderer
+- Pseudocode:
+  - Variables: productID
+  - Start => get SpriteRenderer, set its sprite using the list in FactoryManager
+
+*/

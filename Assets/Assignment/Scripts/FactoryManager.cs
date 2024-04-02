@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class FactoryManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+FactoryManager.cs
+- Manages lists and data for other scripts (sprites, ScriptableObjects, goals, etc)
+- Pseudocode:
+  - Variables: goals, tileSprites, buildings, productSprites, recipes, instance, [product counts]
+  - Awake => set singleton instance
+  - static fn OnProductOutboxed(product) => increment appropriate counts
+  - Needed functions tbd as development progresses
+
+*/

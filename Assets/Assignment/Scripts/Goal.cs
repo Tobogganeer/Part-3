@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+Goal.cs
+- Represents a production goal needed to unlock the next building
+- ScriptableObject
+- Pseudocode:
+  - Variables: products, unlockedBuildingType
+  - Nothing else really
+
+*/

@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Miner : MonoBehaviour
+public class Miner : FactoryBuilding
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
+
+/*
+
+Miner.cs
+- 2x2 tiles
+- 1 output
+- Outputs the resource it is placed on
+- Has a SpriteRenderer for showing the output
+- Pseudocode:
+  - Variables: mineDelay, outputSpriteRenderer
+  - override fn Place(position) => base + start Mine coroutine, set outputSpriteRenderer to the resource we are on
+  - coroutine Mine() => infinite loop that outputs a resource and waits for mineDelay
+  - override fn CanBePlacedOn(worldTiles) => return base fn + check if at least one tile has a resource
+
+*/

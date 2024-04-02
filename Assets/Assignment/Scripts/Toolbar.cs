@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class Toolbar : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+Toolbar.cs
+- Shows building icons for players to click to place buildings
+- More buildings appear as they are unlocked
+- Will have another small script that handles clicks and sends that info to this script
+- Pseudocode:
+  - Variables: buildingButtons, buildingPlacer
+  - Start => EnableCurrentlyUnlockedBuildings()
+  - fn EnableCurrentlyUnlockedBuildings() => turn on the buttons that are unlocked
+  - fn BuildingButtonPressed(buildingType) => call buildingPlacer.StartPlacement(buildingType)
+
+*/

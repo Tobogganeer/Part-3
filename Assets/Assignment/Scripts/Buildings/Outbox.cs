@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Outbox : MonoBehaviour
+public class Outbox : FactoryBuilding
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
+
+/*
+
+Outbox.cs
+- 3x3 tiles
+- Inputs on all sides
+- Adds to the FactoryManager product counts
+- Pseudocode:
+  - override fn OnInput(product) => FactoryManager.OnProductOutboxed(product)
+
+*/

@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class TileOutput : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
+
+/*
+
+TileOutput
+- Represents a place where an item can leave a building
+- No components - raw class
+- Pseudocode:
+  - Variables: direction, tile, building
+  - fn Init(tile) => set reference to tile and building (direction set in inspector)
+  - fn CanOutput(product) => returns true if there is a place to output the item (checks buildings from World for inputs)
+  - fn Output(product) => puts the product into the attached input
+
+*/
