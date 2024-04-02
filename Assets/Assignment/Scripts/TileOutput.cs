@@ -2,16 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileOutput
+public class TileOutput : TileIO
 {
-    Direction direction;
-    Tile tile;
-
-    public TileOutput(Direction direction, Tile tile)
-    {
-        this.tile = tile;
-        this.direction = direction;
-    }
+    public TileOutput(Direction direction, Tile tile) : base(direction, tile) { }
 
     public bool CanOutput(Product product)
     {
@@ -23,24 +16,6 @@ public class TileOutput
     public void Output(Product product)
     {
         //tile.Building.OnInput(product, this);
-    }
-
-    /// <summary>
-    /// Returns the current direction, taking the building's rotation into account.
-    /// </summary>
-    /// <returns></returns>
-    public Direction GetCurrentDirection()
-    {
-        return direction.RotateTo(tile.Building.Rotation);
-    }
-
-    /// <summary>
-    /// Returns the direction as if the building was facing up.
-    /// </summary>
-    /// <returns></returns>
-    public Direction GetStandardDirection()
-    {
-        return direction;
     }
 }
 

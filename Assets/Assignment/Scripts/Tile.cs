@@ -25,28 +25,25 @@ public class Tile
         Inputs = new TileInput[descriptor.inputs.Length];
         Outputs = new TileOutput[descriptor.outputs.Length];
 
+        List<TileIO> io = new List<TileIO>();
+
         // Create the inputs and outputs
         for (int i = 0; i < descriptor.inputs.Length; i++)
             Inputs[i] = new TileInput(descriptor.inputs[i], this);
         for (int i = 0; i < descriptor.outputs.Length; i++)
             Outputs[i] = new TileOutput(descriptor.outputs[i], this);
 
-        ioGraphics = new GameObject[Inputs.Length + Outputs.Length];
-        // Spawn little arrows for each of our inputs and outputs
-        int index = 0;
-        for (int i = 0; i < Inputs.Length; i++, index++)
-        {
-            Quaternion rotation = Inputs[i].GetCurrentDirection().ToRotation();
-            ioGraphics[index] = Object.Instantiate(FactoryManager.Instance.tileInputPrefab, Vector3.zero, rotation, Building.transform);
-            ioGraphics[index].transform.localPosition = (Vector2)GridPosition;
-        }
-        for (int i = 0; i < Outputs.Length; i++, index++)
-        {
-            Quaternion rotation = Outputs[i].GetCurrentDirection().ToRotation();
-            ioGraphics[index] = Object.Instantiate(FactoryManager.Instance.tileOutputPrefab, Vector3.zero, rotation, Building.transform);
-            ioGraphics[index].transform.localPosition = (Vector2)GridPosition;
-        }
+        io.AddRange(Inputs);
+        io.AddRange(Outputs);
+        ioGraphics = new GameObject[io.Count];
 
+        // Spawn little arrows for each of our inputs and outputs
+        for (int i = 0; i < Inputs.Length; i++)
+        {
+            Quaternion rotation = io[i].GetCurrentDirection().ToRotation();
+            ioGraphics[i] = Object.Instantiate(FactoryManager.Instance.tileInputPrefab, Vector3.zero, rotation, Building.transform);
+            ioGraphics[i].transform.localPosition = (Vector2)GridPosition;
+        }
     }
 
     /// <summary>
