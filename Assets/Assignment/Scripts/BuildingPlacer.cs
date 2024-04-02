@@ -25,7 +25,7 @@ public class BuildingPlacer : MonoBehaviour
         else
         {
             // Spawn and initialize the building
-            currentGhost = Instantiate(currentGhost, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
+            currentGhost = Instantiate(buildingPrefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
             currentGhost.Init(buildingType);
         }
     }

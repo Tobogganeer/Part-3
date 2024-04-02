@@ -39,6 +39,7 @@ public class FactoryBuilding : MonoBehaviour
             Tiles[i] = new Tile(this, descriptor.tiles[i]);
 
         spriteRenderer.sprite = Sprite;
+        spriteRenderer.color = new Color(1f, 1f, 1f, 0.5f); // Transparent until we are placed
         CenterSpriteRenderer();
     }
 
@@ -64,6 +65,8 @@ public class FactoryBuilding : MonoBehaviour
     {
         //SetPosition(GridPosition); // Set our transform and data position
         Created = true;
+        // Set us to full alpha
+        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
     }
 
     protected virtual void Tick() { }
