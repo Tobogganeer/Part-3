@@ -1,22 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 public class BuildingPlacer : MonoBehaviour
 {
-    void Start()
+    public GameObject buildingPrefab;
+
+    FactoryBuilding currentGhost;
+    Camera mainCam;
+
+    Vector2 CursorPosition => mainCam.ScreenToWorldPoint(Input.mousePosition);
+
+    private void Start()
     {
-
-    }
-
-    void Update()
-    {
-
+        mainCam = Camera.main;
     }
 
     public void StartPlacement(BuildingType buildingType)
     {
+        // If we already have a building we are placing, destroy it instead
+        // (The player clicked on the toolbar with a building in their hand, they want to put it back)
+        if (currentGhost != null)
+            CancelPlacement();
+        else
+        {
+            // Spawn and initialize the building
+            currentGhost = Instantiate(currentGhost, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
+            currentGhost.Init(buildingType);
+        }
+    }
 
+    public void CancelPlacement()
+    {
+        if (currentGhost != null)
+        {
+            Destroy(currentGhost.gameObject);
+            currentGhost = null;
+        }
     }
 }
 
