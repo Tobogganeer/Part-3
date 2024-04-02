@@ -13,6 +13,11 @@ public class Toolbar : MonoBehaviour
     {
 
     }
+
+    public void BuildingButtonPressed(BuildingType buildingType)
+    {
+
+    }
 }
 
 /*
