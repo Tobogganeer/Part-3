@@ -8,9 +8,12 @@ public class TileOutput : TileIO
 
     public bool CanOutput(Product product)
     {
-        // TODO: Check world for nearby buildings
-        throw new System.NotImplementedException();
-        //return tile.Building.WillAccept(product, this);
+        Direction dir = GetCurrentDirection();
+        // Check if we even have a neighbour
+        if (World.TryGetBuildingTile(tile.GridPosition + dir.Offset(), out Tile neighbour))
+        {
+            if (neighbour.TryGetInput(dir.Opposite(), out TileInput input) && input.CanInput(product)) ;
+        }
     }
 
     public void Output(Product product)

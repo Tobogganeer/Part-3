@@ -86,4 +86,21 @@ public static class DirectionExtensions
             _ => v
         };
     }
+
+    /// <summary>
+    /// Returns a vector pointing in this direction.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public static Vector2Int Offset(this Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Up => Vector2Int.up,
+            Direction.Right => Vector2Int.right,
+            Direction.Down => Vector2Int.down,
+            Direction.Left => Vector2Int.left,
+            _ => Vector2Int.zero
+        };
+    }
 }
