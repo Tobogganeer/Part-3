@@ -2,16 +2,48 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Assembler))]
 public class RecipeSelectMenu : MonoBehaviour
 {
-    void Start()
-    {
+    public GameObject menu;
 
+    Assembler target;
+    bool justOpened;
+
+    private void Start()
+    {
+        target = GetComponent<Assembler>();
     }
 
-    void Update()
+    public void Open()
     {
+        justOpened = true;
+        menu.SetActive(true);
+    }
 
+    public void RecipeChosen(Recipe recipe)
+    {
+        target.UpdateRecipe(recipe);
+        Close();
+    }
+
+    public void Close()
+    {
+        menu.SetActive(false);
+    }
+
+    private void OnMouseDown()
+    {
+        Open();
+    }
+
+    private void Update()
+    {
+        // If the user pressed the mouse and we've been open for 1 frame
+        if (!justOpened && Input.GetKeyDown(KeyCode.Mouse0))
+            Close();
+
+        justOpened = false;
     }
 }
 
