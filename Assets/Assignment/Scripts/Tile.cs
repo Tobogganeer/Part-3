@@ -38,10 +38,11 @@ public class Tile
         ioGraphics = new GameObject[io.Count];
 
         // Spawn little arrows for each of our inputs and outputs
-        for (int i = 0; i < Inputs.Length; i++)
+        for (int i = 0; i < io.Count; i++)
         {
             Quaternion rotation = io[i].GetCurrentDirection().ToRotation();
-            ioGraphics[i] = Object.Instantiate(FactoryManager.Instance.tileInputPrefab, Vector3.zero, rotation, Building.transform);
+            GameObject prefab = io[i] is TileInput ? FactoryManager.Instance.tileInputPrefab : FactoryManager.Instance.tileOutputPrefab;
+            ioGraphics[i] = Object.Instantiate(prefab, Vector3.zero, rotation, Building.transform);
             ioGraphics[i].transform.localPosition = (Vector2)GridPosition;
         }
     }

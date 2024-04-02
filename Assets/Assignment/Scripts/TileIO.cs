@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Shared functionality for TileInputs and TileOutputs
-public class TileIO : MonoBehaviour
+public class TileIO
 {
     protected Direction direction;
     protected Tile tile;
