@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FactoryManager : MonoBehaviour
@@ -21,7 +22,11 @@ public class FactoryManager : MonoBehaviour
     public SerializableDictionary<BuildingType, GameObject> buildingPrefabs;
     public List<Goal> goals;
 
+    [Space]
+    public Toolbar toolbar;
+
     int currentGoal = 0;
+    Dictionary<ProductID, int> currentOutboxes = new Dictionary<ProductID, int>();
 
     public static HashSet<BuildingType> GetCurrentlyUnlockedBuildings()
     {
@@ -45,6 +50,39 @@ public class FactoryManager : MonoBehaviour
 
     public static void OnProductOutboxed(Product product)
     {
+        if (Instance.currentOutboxes.ContainsKey(product.ID))
+            Instance.currentOutboxes[product.ID] += product.Amount;
+        else
+            Instance.currentOutboxes.Add(product.ID, product.Amount);
+
+        Instance.CheckForGoalCompletion();
+        Instance.UpdateGoalUI();
+    }
+
+    void CheckForGoalCompletion()
+    {
+        // We've reached the end
+        if (currentGoal >= goals.Count)
+            // TODO: Add a display on the UI/generate random goals?
+            return;
+
+        // Check if the goal is complete
+        if (goals[currentGoal].products.All(goalProd => currentOutboxes[goalProd.ID] >= goalProd.Amount))
+        {
+            currentGoal++;
+            toolbar.EnableCurrentlyUnlockedBuildings();
+            currentOutboxes.Clear();
+        }
+    }
+
+    void UpdateGoalUI()
+    {
+        // We've reached the end
+        if (currentGoal >= goals.Count)
+        {
+            // Special stuff here
+        }
+
 
     }
 }
