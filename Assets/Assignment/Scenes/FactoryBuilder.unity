@@ -884,17 +884,11 @@ MonoBehaviour:
       value: {fileID: 7172965951136198339, guid: f3639da505389994d89791efe88d1a45, type: 3}
     - key: 7
       value: {fileID: 7172965951136198339, guid: bdc58c134798873408b84d77241dd988, type: 3}
-  _recipes:
-  - {fileID: 11400000, guid: b106eb46cdb89814ebc140eeefcc6982, type: 2}
-  - {fileID: 11400000, guid: ab34615d80df5ba4d8d9feaa56723b21, type: 2}
-  - {fileID: 11400000, guid: 2e07fc73d705b9b41be77eccbc691025, type: 2}
-  - {fileID: 11400000, guid: 9060d5a39f14b1f42b698816018fef4d, type: 2}
-  - {fileID: 11400000, guid: 627823e186b01ac4ea2193afceb7efec, type: 2}
-  - {fileID: 11400000, guid: 21967ff4a45d33d42b95be4817cd0aa2, type: 2}
-  - {fileID: 11400000, guid: fb33db1e009d3e84ab25afcf8dbd8c89, type: 2}
-  - {fileID: 11400000, guid: 4b962c2395e729543b0b20adaed0dafd, type: 2}
-  - {fileID: 11400000, guid: 7ee21ba03df248649badcfb800a3e959, type: 2}
-  - {fileID: 11400000, guid: 2df6eba9769dcb5488e472552ddb0ff4, type: 2}
+  goals:
+  - {fileID: 11400000, guid: f136587f59ad73744a52d14559fe82ee, type: 2}
+  - {fileID: 11400000, guid: 91bbb94a63423af4ea381680d83a770e, type: 2}
+  - {fileID: 11400000, guid: 248281a10c4eee74d9c312480facaf1f, type: 2}
+  - {fileID: 11400000, guid: 5e878001b366e46409e8806f9b48322b, type: 2}
 --- !u!4 &658912151
 Transform:
   m_ObjectHideFlags: 0

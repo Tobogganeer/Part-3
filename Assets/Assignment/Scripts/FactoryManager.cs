@@ -8,7 +8,6 @@ public class FactoryManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        Init();
     }
 
     public GameObject tileInputPrefab;
@@ -20,19 +19,7 @@ public class FactoryManager : MonoBehaviour
     public SerializableDictionary<ProductID, Sprite> productSprites;
     public SerializableDictionary<BuildingType, BuildingDescriptor> buildings;
     public SerializableDictionary<BuildingType, GameObject> buildingPrefabs;
-    [SerializeField] private List<Recipe> _recipes;
-
-    public Dictionary<ProductID, Recipe> recipes;
-
-    void Init()
-    {
-        recipes = new Dictionary<ProductID, Recipe>();
-        foreach (Recipe recipe in _recipes)
-        {
-            // Each recipe only has one output item type
-            recipes.Add(recipe.outputs[0].ID, recipe);
-        }
-    }
+    public List<Goal> goals;
 
     public static HashSet<BuildingType> GetCurrentlyUnlockedBuildings()
     {
