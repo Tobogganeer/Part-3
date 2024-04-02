@@ -1313,6 +1313,16 @@ MonoBehaviour:
       value: 4
     - key: {x: 15, y: 3}
       value: 4
+    - key: {x: 3, y: 8}
+      value: 2
+    - key: {x: 5, y: 2}
+      value: 4
+    - key: {x: 18, y: 6}
+      value: 1
+    - key: {x: 7, y: 4}
+      value: 3
+    - key: {x: 18, y: 2}
+      value: 2
 --- !u!4 &958563035
 Transform:
   m_ObjectHideFlags: 0
