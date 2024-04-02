@@ -15,6 +15,38 @@ public class World : MonoBehaviour
     Dictionary<Vector2Int, FactoryBuilding> buildings = new Dictionary<Vector2Int, FactoryBuilding>();
     // For multi-tile buildings - store what buildings occupy each world tile
     Dictionary<WorldTile, FactoryBuilding> tileToBuilding = new Dictionary<WorldTile, FactoryBuilding>();
+
+    private void Start()
+    {
+        // Create an object to hold all of our tiles (instead of spewing them all over the heirarchy)
+        Transform tileHolder = new GameObject("World Tiles").transform;
+
+        for (int x = 0; x < worldSize.x; x++)
+        {
+            for (int y = 0; y < worldSize.y; y++)
+            {
+                Vector2Int position = new Vector2Int(x, y);
+                // Did we specify there being a resource to mine here?
+                bool actualResourceHere = resourceLocations.dict.ContainsKey(position);
+                // Fetch the resource (if it exists)
+                ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
+                
+                // Spawn the tile
+                SpawnTile(position, product, tileHolder);
+            }
+        }
+    }
+
+    void SpawnTile(Vector2Int position, ProductID product, Transform holder)
+    {
+        // Convert the grid coordinate to actual world space
+        Vector2 worldPosition = (Vector2)position * worldTileSize + (Vector2)transform.position;
+        GameObject spawnedTile = Instantiate(worldTilePrefab, worldPosition, Quaternion.identity, holder);
+        // Tell the tile what and where it is
+        WorldTile tile = spawnedTile.GetComponent<WorldTile>();
+        tile.Init(product, position);
+        worldTiles.Add(position, tile);
+    }
 }
 
 /*

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class WorldTile : MonoBehaviour
 {
-    // This is set by the World when we are instantiated
     public ProductID Product { get; set; }
+    public Vector2Int GridPosition;
+
+    // Called by the World when it spawns this tile
+    public void Init(ProductID product, Vector2Int gridPosition)
+    {
+        Product = product;
+        GridPosition = gridPosition;
+    }
 
     private void Start()
     {
