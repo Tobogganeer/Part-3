@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class FactoryManager : MonoBehaviour
 {
-    void Start()
+    public static FactoryManager Instance { get; private set; }
+    private void Awake()
     {
-
-    }
-
-    void Update()
-    {
-
+        Instance = this;
     }
 }
 

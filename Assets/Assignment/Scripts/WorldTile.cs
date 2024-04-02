@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class WorldTile : MonoBehaviour
 {
-    public SpriteRenderer spriteRenderer;
+    public ProductID Product { get; set; }
 
-    [HideInInspector] public 
+    private void Start()
+    {
+        //GetComponent<SpriteRenderer>().sprite = 
+    }
 }
 
 /*
