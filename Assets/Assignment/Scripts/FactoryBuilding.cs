@@ -6,6 +6,7 @@ public class FactoryBuilding : MonoBehaviour
 {
     [SerializeField] BuildingDescriptor descriptor;
 
+    public Direction Rotation { get; private set; }
     public Vector2Int GridPosition { get; private set; }
     public Tile[] Tiles { get; private set; }
     public bool Created { get ; private set; }
@@ -16,7 +17,17 @@ public class FactoryBuilding : MonoBehaviour
     public BuildingType Type => descriptor.type;
     public Sprite Sprite => descriptor.sprite;
 
+
+    public void SetRotation(Direction newUp)
+    {
+        // Set our rotation both in data and graphically
+        Rotation = newUp;
+        transform.rotation = Quaternion.Euler(0, 0, newUp.ToDegrees());
+    }
+
     public virtual bool WillAccept(Product product, TileInput input) => true;
+
+    public virtual void OnInput(Product product, TileInput input) => Products.Add(product);
 }
 
 public enum BuildingType

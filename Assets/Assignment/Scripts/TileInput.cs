@@ -17,6 +17,29 @@ public class TileInput
     {
         return tile.Building.WillAccept(product, this);
     }
+
+    public void Input(Product product)
+    {
+        tile.Building.OnInput(product, this);
+    }
+
+    /// <summary>
+    /// Returns the current direction, taking the building's rotation into account.
+    /// </summary>
+    /// <returns></returns>
+    public Direction GetCurrentDirection()
+    {
+        return direction.RotateTo(tile.Building.Rotation);
+    }
+
+    /// <summary>
+    /// Returns the direction as if the building was facing up.
+    /// </summary>
+    /// <returns></returns>
+    public Direction GetStandardDirection()
+    {
+        return direction;
+    }
 }
 
 /*

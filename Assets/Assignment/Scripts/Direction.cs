@@ -44,4 +44,14 @@ public static class DirectionExtensions
 
         return direction;
     }
+
+    /// <summary>
+    /// Returns this direction as a rotation in degrees.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public static float ToDegrees(this Direction direction)
+    {
+        return (int)direction * 90f;
+    }
 }
