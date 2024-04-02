@@ -9,7 +9,7 @@ public class ProductObject : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.productSprites.dict[id];
+        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.productSprites[id];
     }
 
     /// <summary>

@@ -28,7 +28,7 @@ public class FactoryBuilding : MonoBehaviour
     /// <param name="type"></param>
     public void Init(BuildingType type)
     {
-        descriptor = FactoryManager.Instance.buildings.dict[type];
+        descriptor = FactoryManager.Instance.buildings[type];
     }
 
     protected virtual void Start()

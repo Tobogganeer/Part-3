@@ -35,7 +35,7 @@ public class World : MonoBehaviour
                 // Did we specify there being a resource to mine here?
                 bool actualResourceHere = resourceLocations.dict.ContainsKey(position);
                 // Fetch the resource (if it exists)
-                ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
+                ProductID product = actualResourceHere ? resourceLocations[position] : ProductID.None;
                 
                 // Spawn the tile as a child of us
                 SpawnTile(position, product, transform);
@@ -219,7 +219,7 @@ public class World : MonoBehaviour
                 // Did we specify there being a resource to mine here?
                 bool actualResourceHere = resourceLocations.dict.ContainsKey(position);
                 // Fetch the resource (if it exists)
-                ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
+                ProductID product = actualResourceHere ? resourceLocations[position] : ProductID.None;
 
                 Gizmos.color = GetProductColour(product);
                 Vector2 tileWorldPosition = _GridToWorldPosition(position);
