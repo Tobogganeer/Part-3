@@ -23,7 +23,7 @@ public class ToolbarButton : MonoBehaviour
         buildingIcon.sprite = FactoryManager.Instance.buildings[buildingType].sprite;
     }
 
-    void OnClicked()
+    public void OnClicked()
     {
         if (unlocked)
             toolbar.BuildingButtonPressed(buildingType);

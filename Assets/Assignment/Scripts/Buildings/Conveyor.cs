@@ -30,13 +30,14 @@ public class Conveyor : FactoryBuilding
 
         // Spawn in the actual item sprite
         ProductObject visuals = product.SpawnObject(inputPosition);
+        visuals.transform.SetParent(transform); // Make us the parent so if we are destroyed it is too
         // Move the product from the input to the middle of the tile (takes half the time)
         yield return MoveProductObject(visuals, inputPosition, center, GetTransportTime() / 2f);
 
         // Hold the item until we can get rid of it
         yield return new WaitUntil(() => HasValidOutput(product));
 
-        // For our purposes, we aren't storing this any more. Free up the space to let more products flow in.
+        // For our purposes, we aren't storing the product any more. Free up the space to let more products flow in.
         Products.Remove(product);
 
         Vector2 outputPosition = center + (Vector2)GetOutputDirection(product).Offset() * World.TileSize / 2f;
@@ -62,7 +63,7 @@ public class Conveyor : FactoryBuilding
     protected virtual float GetTransportTime() => transportDelay;
     protected virtual bool HasValidOutput(Product product) => Outputs.Any(output => output.CanOutput(product));
     protected virtual Direction GetOutputDirection(Product product) => Outputs.First(output => output.CanOutput(product)).GetCurrentDirection();
-    protected virtual void OutputProduct(Product product) => Outputs.First(output => output.CanOutput(product)).Output(product);
+    protected virtual void OutputProduct(Product product) => Outputs.FirstOrDefault(output => output.CanOutput(product))?.Output(product);
 
     /*
     protected enum State
