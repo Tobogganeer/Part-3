@@ -12,8 +12,15 @@ public class Tile
     public Tile(FactoryBuilding building, TileDescriptor descriptor)
     {
         Position = descriptor.position;
-        //Inputs = 
         Building = building;
+        Inputs = new TileInput[descriptor.inputs.Length];
+        Outputs = new TileOutput[descriptor.outputs.Length];
+
+        // Create the inputs and outputs
+        for (int i = 0; i < descriptor.inputs.Length; i++)
+            Inputs[i] = new TileInput(descriptor.inputs[i], this);
+        for (int i = 0; i < descriptor.outputs.Length; i++)
+            Outputs[i] = new TileOutput(descriptor.outputs[i], this);
     }
 }
 

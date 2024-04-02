@@ -4,7 +4,44 @@ using UnityEngine;
 
 public class TileOutput
 {
-    
+    Direction direction;
+    Tile tile;
+
+    public TileOutput(Direction direction, Tile tile)
+    {
+        this.tile = tile;
+        this.direction = direction;
+    }
+
+    public bool CanOutput(Product product)
+    {
+        // TODO: Check world for nearby buildings
+        throw new System.NotImplementedException();
+        //return tile.Building.WillAccept(product, this);
+    }
+
+    public void Output(Product product)
+    {
+        //tile.Building.OnInput(product, this);
+    }
+
+    /// <summary>
+    /// Returns the current direction, taking the building's rotation into account.
+    /// </summary>
+    /// <returns></returns>
+    public Direction GetCurrentDirection()
+    {
+        return direction.RotateTo(tile.Building.Rotation);
+    }
+
+    /// <summary>
+    /// Returns the direction as if the building was facing up.
+    /// </summary>
+    /// <returns></returns>
+    public Direction GetStandardDirection()
+    {
+        return direction;
+    }
 }
 
 /*
