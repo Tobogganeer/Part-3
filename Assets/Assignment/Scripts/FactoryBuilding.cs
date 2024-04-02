@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class FactoryBuilding : MonoBehaviour
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
+    public Vector2Int gridPosition;
 }
 
 /*

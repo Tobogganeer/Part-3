@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class World : MonoBehaviour
 {
+    private static World instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+
     public GameObject worldTilePrefab;
     public float worldTileSize; // Units
     public Vector2Int worldSize; // Tiles
@@ -43,6 +49,24 @@ public class World : MonoBehaviour
         WorldTile tile = spawnedTile.GetComponent<WorldTile>();
         tile.Init(product, position);
         worldTiles.Add(position, tile);
+    }
+
+    public static bool CanPlaceBuilding(Vector2Int gridPosition, FactoryBuilding building)
+    {
+        // TODO: Check building's tiles
+        throw new System.NotImplementedException();
+    }
+
+    public static void PlaceBuilding(Vector2Int gridPosition, FactoryBuilding building)
+    {
+        // TODO: Place building
+        throw new System.NotImplementedException();
+    }
+
+    public static void RemoveBuilding(FactoryBuilding building)
+    {
+        // TODO: Remove building and tiles
+        throw new System.NotImplementedException();
     }
 }
 
