@@ -9,6 +9,18 @@ public class FactoryBuilding : MonoBehaviour
     public virtual bool WillAccept(Product product, TileInput input) => true;
 }
 
+public enum BuildingType
+{
+    None,
+    Outbox,
+    Miner,
+    Conveyor,
+    Assembler,
+    UndergroundInput,
+    UndergroundOutput,
+    Splitter
+}
+
 /*
 
 FactoryBuilding.cs (see subclasses at bottom)

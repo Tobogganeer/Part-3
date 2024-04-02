@@ -5,7 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Building Descriptor")]
 public class BuildingDescriptor : ScriptableObject
 {
-    
+    [SerializeField] Vector2Int size;
+    [SerializeField] TileDescriptor[] tiles;
+    [SerializeField] BuildingType type;
+    [SerializeField] Sprite sprite;
+
+    public Vector2Int Size => size;
+    public TileDescriptor[] Tiles => tiles;
+    public BuildingType Type => type;
+    public Sprite Sprite => sprite;
 }
 
 /*
