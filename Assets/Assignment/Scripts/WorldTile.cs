@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class WorldTile : MonoBehaviour
 {
+    // This is set by the World when we are instantiated
     public ProductID Product { get; set; }
 
     private void Start()
     {
-        //GetComponent<SpriteRenderer>().sprite = 
+        // Set our sprite
+        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.tileSprites.dict[Product];
     }
 }
 

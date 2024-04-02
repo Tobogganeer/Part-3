@@ -9,6 +9,8 @@ public class FactoryManager : MonoBehaviour
     {
         Instance = this;
     }
+
+    public SerializableDictionary<ProductID, Sprite> tileSprites;
 }
 
 /*

@@ -13,7 +13,8 @@ using UnityEngine;
 /// <summary>
 /// A dictionary that can be edited in the Unity inspector
 /// </summary>
-public class SerializeableDictionary<TKey, TValue>
+[System.Serializable]
+public class SerializableDictionary<TKey, TValue>
 {
     [System.Serializable]
     class SerializedPair
