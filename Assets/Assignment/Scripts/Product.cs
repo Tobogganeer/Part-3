@@ -17,23 +17,56 @@ public enum ProductID
     Can,
 
     // Primary products (all amounts are tbd)
-    CannedTomatoes, // Can + Tomato
-    Sauce, // Tomato
-    Flour, // Wheat
+    /// <summary>
+    /// Recipe: Can + Tomato
+    /// </summary>
+    Sauce,
+    /// <summary>
+    /// Recipe: Tomato
+    /// </summary>
+    CannedTomatoes,
+    /// <summary>
+    /// Recipe: Wheat
+    /// </summary>
+    Flour,
 
     // Secondary products
-    Dough, // Flour + Water
-    Soup, // Sauce + Water
-    Juice, // CannedTomatoes + Water
+    /// <summary>
+    /// Recipe: Flour + Water
+    /// </summary>
+    Dough,
+    /// <summary>
+    /// Recipe: Sauce + Water
+    /// </summary>
+    Soup,
+    /// <summary>
+    /// Recipe: CannedTomatoes + Water
+    /// </summary>
+    Juice,
 
     // Tertiary products
-    Pizza, // Dough + Sauce
-    Pie, // Dough + CannedTomatoes
-    Bread, // Dough + Water
-    CannedJuice, // Juice + Can
+    /// <summary>
+    /// Recipe: Dough + Sauce
+    /// </summary>
+    Pizza,
+    /// <summary>
+    /// Recipe: Dough + CannedTomatoes
+    /// </summary>
+    Pie,
+    /// <summary>
+    /// Recipe: Dough + Water
+    /// </summary>
+    Bread,
+    /// <summary>
+    /// Recipe: Juice + Can
+    /// </summary>
+    CannedJuice,
 
     // Legendary item
-    CannedBread, // Bread + Can
+    /// <summary>
+    /// Recipe: Bread + Can
+    /// </summary>
+    CannedBread,
 }
 
 /*
