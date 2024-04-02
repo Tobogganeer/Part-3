@@ -21,16 +21,6 @@ public class FactoryBuilding : MonoBehaviour
     public BuildingType Type => descriptor.type;
     public Sprite Sprite => descriptor.sprite;
 
-
-    /// <summary>
-    /// Call this when the building is first created.
-    /// </summary>
-    /// <param name="type"></param>
-    public void Init(BuildingType type)
-    {
-        descriptor = FactoryManager.Instance.buildings[type];
-    }
-
     protected virtual void Start()
     {
         // Set our GameObject's name properly

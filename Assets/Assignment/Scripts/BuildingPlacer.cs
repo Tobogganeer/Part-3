@@ -26,7 +26,6 @@ public class BuildingPlacer : MonoBehaviour
             // Spawn and initialize the building
             GameObject prefab = FactoryManager.Instance.buildingPrefabs[buildingType];
             currentGhost = Instantiate(prefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
-            currentGhost.Init(buildingType);
             framesSinceStartedPlacement = 0;
 
             IOGraphic.SetVisibility(true); // Turn on IO graphics so we can line things up

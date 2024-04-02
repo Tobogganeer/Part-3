@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 4892649429790744585}
   - component: {fileID: 5906124490260168677}
   m_Layer: 0
-  m_Name: Building
+  m_Name: Splitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7172965951136198339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98f78a40caff10c40a8cc67954a1549e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0385e69788fdec345b69a4534ed25fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  descriptor: {fileID: 0}
+  descriptor: {fileID: 11400000, guid: 51801eab457fc3849a966341fdc9a28b, type: 2}
   spriteRenderer: {fileID: 1950708317429191987}
