@@ -20,7 +20,7 @@ public class TileOutput : TileIO
     public bool Output(Product product)
     {
         // Check if it is valid
-        if (CanOutput(product))
+        if (!CanOutput(product))
             return false;
 
         // Get the neighbour and send it
