@@ -17,7 +17,7 @@ public static class DirectionExtensions
     /// <returns></returns>
     public static Direction RotateLeft(this Direction direction)
     {
-        return direction == Direction.Up ? Direction.Left : direction--;
+        return direction == Direction.Up ? Direction.Left : --direction;
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public static class DirectionExtensions
     /// <returns></returns>
     public static Direction RotateRight(this Direction direction)
     {
-        return direction == Direction.Left ? Direction.Up : direction++;
+        return direction == Direction.Left ? Direction.Up : ++direction;
     }
 
     /// <summary>

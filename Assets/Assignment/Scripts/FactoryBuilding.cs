@@ -51,6 +51,9 @@ public class FactoryBuilding : MonoBehaviour
                 World.PlaceBuilding(this);
         }
 
+        if (Input.GetKeyDown(KeyCode.R))
+            SetRotation(Rotation.RotateRight());
+
         testPos.x += Input.GetAxis("Horizontal") * 0.1f;
         testPos.y += Input.GetAxis("Vertical") * 0.1f;
         SetPosition(World.WorldToGridPosition(testPos));
@@ -75,7 +78,7 @@ public class FactoryBuilding : MonoBehaviour
     public void SetRotation(Direction newUp)
     {
         // No editing after we have been created (if we are too big, allow 1x1s to rotate)
-        if (Created && (Size.x > 0 || Size.y > 0)) return;
+        if (Created && (Size.x > 1 || Size.y > 1)) return;
 
         // Set our rotation both in data and graphically
         Rotation = newUp;
