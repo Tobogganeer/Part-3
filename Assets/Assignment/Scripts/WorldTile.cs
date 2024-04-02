@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class WorldTile : MonoBehaviour
 {
-    void Start()
-    {
+    public SpriteRenderer spriteRenderer;
 
-    }
-
-    void Update()
-    {
-
-    }
+    [HideInInspector] public 
 }
 
 /*
