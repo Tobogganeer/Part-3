@@ -6,35 +6,7 @@ public class UndergroundInput : Conveyor
 {
     public int maxTilesBetweenEnds = 4;
 
-    Queue<Product> productBuffer;
-
-    protected override void Start()
-    {
-        base.Start();
-
-        productBuffer = new Queue<Product>(maxTilesBetweenEnds);
-        // We always want this queue to be full, even full of nulls
-        for (int i = 0; i < maxTilesBetweenEnds; i++)
-            productBuffer.Enqueue(null);
-    }
-
-    public override void Place()
-    {
-        base.Place();
-        StartCoroutine(PushQueue());
-    }
-
-    IEnumerator PushQueue()
-    {
-
-    }
-
-    protected override float GetTransportTime()
-    {
-        GetOutputTile(out int distance);
-        // Multiply the time by how many tiles it has to travel
-        return base.GetTransportTime() * distance;
-    }
+    int productsInTransit;
 
     protected override IEnumerator TransportProduct(Product product, TileInput input)
     {
@@ -51,20 +23,41 @@ public class UndergroundInput : Conveyor
         // Move the product from the input to the middle of the tile (takes half the time)
         yield return MoveProductObject(visuals, inputPosition, center, GetTransportTime() / 2f);
 
-
-
         // Hold the item until we can get rid of it
         yield return new WaitUntil(() => HasValidOutput(product));
 
         // For our purposes, we aren't storing the product any more. Free up the space to let more products flow in.
         Products.Remove(product);
+        productsInTransit++;
 
         Vector2 outputPosition = center + (Vector2)GetOutputDirection(product).Offset() * World.TileSize / 2f;
         // Move the product from the middle of the tile to the output (the other half of the time)
         yield return MoveProductObject(visuals, center, outputPosition, GetTransportTime() / 2f);
 
-        OutputProduct(product);
-        visuals.Obliterate(); // Goodbye visuals, you've served us well
+        visuals.Obliterate(); // Goodbye visuals, you've served us well. We are underground from here on out.
+
+        // Get the distance - we will double check the output afterwards
+        GetOutputTile(out int tilesBetween);
+        yield return new WaitForSeconds(transportDelay * tilesBetween);
+
+        // Check if an output still exists
+        UndergroundOutput output = GetOutputTile(out _);
+        if (output != null)
+        {
+            // Wait for the output to open up or be destroyed (just in case)
+            yield return new WaitUntil(() => output.WillAccept(product, null) || output == null);
+            OutputProduct(product);
+        }
+
+        productsInTransit--;
+    }
+
+    protected override void OutputProduct(Product product)
+    {
+        UndergroundOutput output = GetOutputTile(out _);
+        // Give the output our item (not through any specific input)
+        if (output != null)
+            output.OnInput(product, null);
     }
 
     protected override Direction GetOutputDirection(Product product)
@@ -75,18 +68,17 @@ public class UndergroundInput : Conveyor
 
     protected override bool HasValidOutput(Product product)
     {
-        UndergroundOutput output = GetOutputTile(out _);
-        // TODO: Change to account for buffer
-        return output != null && output.WillAccept(product, null);
+        UndergroundOutput output = GetOutputTile(out int tilesBetween);
+        // Only go if we have an output and we don't have too many items going
+        return output != null && productsInTransit < tilesBetween;
     }
 
     /// <summary>
     /// Tries to find an UndergroundOutput in front of us, returning null if one cannot be found.
     /// </summary>
-    /// <param name="distance"></param>
+    /// <param name="tilesBetween"></param>
     /// <returns></returns>
-    /// <remarks><paramref name="distance"/> is measured from end to end - it is not the number of tiles between ends.</remarks>
-    UndergroundOutput GetOutputTile(out int distance)
+    UndergroundOutput GetOutputTile(out int tilesBetween)
     {
         Direction dir = GetOutputDirection(null);
         Vector2Int offset = dir.Offset();
@@ -101,13 +93,13 @@ public class UndergroundInput : Conveyor
                 // Check if we are facing the same direction
                 if (output.Rotation == Rotation)
                 {
-                    distance = i + 1;
+                    tilesBetween = i;
                     return output;
                 }
             }
         }
 
-        distance = 0;
+        tilesBetween = -1;
         return null;
     }
 }
