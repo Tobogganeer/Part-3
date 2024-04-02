@@ -27,7 +27,7 @@ public class TileOutput : TileIO
         return TryGetNeighbourInput(GetCurrentDirection(), out TileInput input) && input.Input(product);
     }
 
-    bool TryGetNeighbourInput(Direction dir, out TileInput input)
+    public bool TryGetNeighbourInput(Direction dir, out TileInput input)
     {
         input = null;
         // If we have a neighbour, try to get the input in the correct direction

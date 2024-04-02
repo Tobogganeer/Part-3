@@ -8,6 +8,8 @@ public class TileIO
     protected Direction direction;
     protected Tile tile;
 
+    public Tile Tile => tile;
+
     public TileIO(Direction direction, Tile tile)
     {
         this.tile = tile;
