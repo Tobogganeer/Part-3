@@ -13,14 +13,12 @@ public class ToolbarButton : MonoBehaviour
     public Image buildingIcon;
     public BuildingType buildingType;
 
-    [Space]
-    [SerializeField] bool unlocked;
+    bool unlocked;
 
     private void Start()
     {
         // Register the click in code to save a few clicks in editor
         GetComponent<Button>().onClick.AddListener(OnClicked);
-        SetUnlockState(unlocked); // Set our initial icon colour
     }
 
     void OnClicked()

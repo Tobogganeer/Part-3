@@ -13,6 +13,11 @@ public class BuildingPlacer : MonoBehaviour
     {
 
     }
+
+    public void StartPlacement(BuildingType buildingType)
+    {
+
+    }
 }
 
 /*

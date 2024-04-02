@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class Toolbar : MonoBehaviour
 {
-    void Start()
-    {
+    public SerializableDictionary<BuildingType, ToolbarButton> buildingButtons;
+    public BuildingPlacer buildingPlacer;
 
+    private void Start()
+    {
+        EnableCurrentlyUnlockedBuildings();
     }
 
-    void Update()
+    public void EnableCurrentlyUnlockedBuildings()
     {
-
+        HashSet<BuildingType> unlocked = FactoryManager.GetCurrentlyUnlockedBuildings();
+        // Set each button to be unlocked (clickable and visible) only if it should be
+        foreach (ToolbarButton button in buildingButtons.dict.Values)
+            button.SetUnlockState(unlocked.Contains(button.buildingType));
     }
 
     public void BuildingButtonPressed(BuildingType buildingType)
     {
-
+        buildingPlacer.StartPlacement(buildingType);
     }
 }
 
