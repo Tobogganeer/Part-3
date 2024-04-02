@@ -44,7 +44,9 @@ public class Conveyor : FactoryBuilding
         // Move the product from the middle of the tile to the output (the other half of the time)
         yield return MoveProductObject(visuals, center, outputPosition, GetTransportTime() / 2f);
 
-        OutputProduct(product);
+        // Send the product out if everything is still valid
+        if (HasValidOutput(product))
+            OutputProduct(product);
         visuals.Obliterate(); // Goodbye visuals, you've served us well
     }
 
