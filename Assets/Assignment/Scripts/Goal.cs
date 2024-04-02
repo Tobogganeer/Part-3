@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Goal")]
 public class Goal : ScriptableObject
 {
-    
+    public Product[] products;
+    public BuildingType unlockedBuildingType;
 }
 
 /*
