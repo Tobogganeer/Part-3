@@ -8,6 +8,7 @@ public class BuildingPlacer : MonoBehaviour
 
     FactoryBuilding currentGhost;
     Camera mainCam;
+    int framesSinceStartedPlacement;
 
     Vector2 CursorPosition => mainCam.ScreenToWorldPoint(Input.mousePosition);
 
@@ -27,13 +28,16 @@ public class BuildingPlacer : MonoBehaviour
             // Spawn and initialize the building
             currentGhost = Instantiate(buildingPrefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
             currentGhost.Init(buildingType);
+            framesSinceStartedPlacement = 0;
         }
     }
 
     private void Update()
     {
-        // We only need to update the ghost
-        if (currentGhost == null)
+        framesSinceStartedPlacement++;
+
+        // Only update the ghost if it's been more than a few frames
+        if (currentGhost == null || framesSinceStartedPlacement < 5)
             return;
 
         // Place the building on left click
