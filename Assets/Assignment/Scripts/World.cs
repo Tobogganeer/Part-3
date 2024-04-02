@@ -126,6 +126,9 @@ public class World : MonoBehaviour
     /// <returns></returns>
     public static bool HasBuilding(Vector2Int gridPosition) => instance.tileToBuilding.ContainsKey(gridPosition);
 
+    public static bool TryGetBuilding(Vector2Int gridPosition, out FactoryBuilding building)
+        => instance.tileToBuilding.TryGetValue(gridPosition, out building);
+
     /// <summary>
     /// Returns the resource type, if any, at <paramref name="position"/>.
     /// </summary>

@@ -96,6 +96,7 @@ public class FactoryBuilding : MonoBehaviour
     public void SetRotation(Direction newUp)
     {
         // No editing after we have been created (if we are too big, allow 1x1s to rotate)
+        // TODO: (maybe) Allow all square buildings to rotate (calculate and move pivot)
         if (Created && (Size.x > 1 || Size.y > 1)) return;
 
         // Set our rotation both in data and graphically

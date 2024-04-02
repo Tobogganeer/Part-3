@@ -37,9 +37,27 @@ public class BuildingPlacer : MonoBehaviour
         framesSinceStartedPlacement++;
 
         // Only update the ghost if it's been more than a few frames
-        if (currentGhost == null || framesSinceStartedPlacement < 5)
-            return;
+        if (currentGhost != null && framesSinceStartedPlacement >= 5)
+            UpdateGhost();
+        else
+        {
+            // See if we are hovering over any buildings
+            if (World.TryGetBuilding(World.WorldToGridPosition(CursorPosition), out FactoryBuilding building))
+            {
+                // Try to remove buildings on right click
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                    World.RemoveBuilding(building);
+                // Try to rotate 1x1 buildings
+                else if (Input.GetKeyDown(KeyCode.R))
+                    building.SetRotation(Input.GetKey(KeyCode.LeftShift) ?
+                        building.Rotation.RotateLeft() : building.Rotation.RotateRight());
+            }
 
+        }
+    }
+
+    void UpdateGhost()
+    {
         // Place the building on left click
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
