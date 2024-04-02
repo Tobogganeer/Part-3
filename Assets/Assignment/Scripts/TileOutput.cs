@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileOutput : MonoBehaviour
+public class TileOutput
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
+    
 }
 
 /*

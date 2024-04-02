@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Recipe : MonoBehaviour
+[CreateAssetMenu(menuName = "Scriptable Objects/Recipe")]
+public class Recipe : ScriptableObject
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
+    
 }
 
 /*

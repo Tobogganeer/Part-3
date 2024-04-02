@@ -2,17 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileInput : MonoBehaviour
+public class TileInput
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
+    
 }
 
 /*

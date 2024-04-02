@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goal : MonoBehaviour
+[CreateAssetMenu(menuName = "Scriptable Objects/Goal")]
+public class Goal : ScriptableObject
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
+    
 }
 
 /*

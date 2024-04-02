@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingDescriptor : MonoBehaviour
+[CreateAssetMenu(menuName = "Scriptable Objects/Building Descriptor")]
+public class BuildingDescriptor : ScriptableObject
 {
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-
-    }
+    
 }
 
 /*
