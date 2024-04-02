@@ -59,8 +59,8 @@ public class FactoryBuilding : MonoBehaviour
 
     public void SetRotation(Direction newUp)
     {
-        // No editing after we have been created
-        if (Created) return;
+        // No editing after we have been created (if we are too big, allow 1x1s to rotate)
+        if (Created && (Size.x > 0 || Size.y > 0)) return;
 
         // Set our rotation both in data and graphically
         Rotation = newUp;
