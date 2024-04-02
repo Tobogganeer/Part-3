@@ -52,7 +52,7 @@ public static class DirectionExtensions
     /// <returns></returns>
     public static float ToDegrees(this Direction direction)
     {
-        return (int)direction * 90f;
+        return -(int)direction * 90f;
     }
 
     public static Direction Opposite(this Direction direction)
@@ -62,7 +62,7 @@ public static class DirectionExtensions
     }
 
     /// <summary>
-    /// Rotates the vector <paramref name="v"/> to us this vector as the new up.
+    /// Rotates the vector <paramref name="v"/> to use this vector as the new up.
     /// </summary>
     /// <param name="direction"></param>
     /// <returns></returns>
