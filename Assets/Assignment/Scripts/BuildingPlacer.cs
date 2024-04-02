@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BuildingPlacer : MonoBehaviour
 {
-    public GameObject buildingPrefab;
-
     FactoryBuilding currentGhost;
     Camera mainCam;
     int framesSinceStartedPlacement;
@@ -26,7 +24,8 @@ public class BuildingPlacer : MonoBehaviour
         else
         {
             // Spawn and initialize the building
-            currentGhost = Instantiate(buildingPrefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
+            GameObject prefab = FactoryManager.Instance.buildingPrefabs[buildingType];
+            currentGhost = Instantiate(prefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
             currentGhost.Init(buildingType);
             framesSinceStartedPlacement = 0;
 

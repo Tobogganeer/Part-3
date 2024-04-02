@@ -18,6 +18,7 @@ public class FactoryManager : MonoBehaviour
     public SerializableDictionary<ProductID, Sprite> tileSprites;
     public SerializableDictionary<ProductID, Sprite> productSprites;
     public SerializableDictionary<BuildingType, BuildingDescriptor> buildings;
+    public SerializableDictionary<BuildingType, GameObject> buildingPrefabs;
 
 
     public static HashSet<BuildingType> GetCurrentlyUnlockedBuildings()
