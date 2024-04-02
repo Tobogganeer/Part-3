@@ -85,18 +85,23 @@ public class World : MonoBehaviour
     }
 
     /// <summary>
-    /// Places the <paramref name="building"/> in the world.
+    /// Attempts to place the <paramref name="building"/> in the world.
     /// </summary>
     /// <param name="building"></param>
-    public static void PlaceBuilding(FactoryBuilding building)
+    /// <returns>Whether or not the building could be placed</returns>
+    public static bool PlaceBuilding(FactoryBuilding building)
     {
-        // We assume it can be placed here... big trust being thrown around
+        if (!CanPlaceBuilding(building))
+            return false;
+
         building.Place();
 
         // Add the building's info to our vaults
         instance.buildings.Add(building);
         foreach (Tile tile in building.Tiles)
             instance.tileToBuilding[tile.GridPosition] = building;
+
+        return true;
     }
 
     /// <summary>

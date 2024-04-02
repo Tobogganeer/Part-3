@@ -35,10 +35,25 @@ public class FactoryBuilding : MonoBehaviour
 
     protected virtual void Tick() { }
 
+    Vector2 testPos;
+
     void Update()
     {
         if (Created)
             Tick();
+
+        // TESTING
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Created)
+                World.RemoveBuilding(this);
+            else
+                World.PlaceBuilding(this);
+        }
+
+        testPos.x += Input.GetAxis("Horizontal") * 0.1f;
+        testPos.y += Input.GetAxis("Vertical") * 0.1f;
+        SetPosition(World.WorldToGridPosition(testPos));
     }
 
     public virtual bool CanBePlacedOn(List<WorldTile> worldTiles) => true;
@@ -65,6 +80,22 @@ public class FactoryBuilding : MonoBehaviour
         // Set our rotation both in data and graphically
         Rotation = newUp;
         transform.rotation = Quaternion.Euler(0, 0, newUp.ToDegrees());
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(testPos, 0.3f);
+
+        Gizmos.color = Color.yellow;
+        if (Tiles != null)
+            foreach (Tile tile in Tiles)
+                Gizmos.DrawSphere(World.GridToWorldPosition(tile.GridPosition), 0.3f);
+
+        Gizmos.color = Color.red;
+        if (Application.isPlaying)
+            Gizmos.DrawSphere(World.GridToWorldPosition(GridPosition), 0.3f);
     }
 }
 
