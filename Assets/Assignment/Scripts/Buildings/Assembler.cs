@@ -10,7 +10,7 @@ public class Assembler : FactoryBuilding
 
     Recipe currentRecipe;
     Coroutine craftCoroutine;
-    List<Product> outputBuffer = new List<Product>();
+    //List<Product> outputBuffer = new List<Product>();
 
     // Used to limit how many ingredients we can store
     const int MaxIngredientMultiplier = 3;
@@ -81,6 +81,61 @@ public class Assembler : FactoryBuilding
                 Products.Add(new Product(input.ID, Mathf.Min(currentStoredAmount, input.Amount * MaxIngredientMultiplier)));
             }
         }
+    }
+
+
+    public override bool WillAccept(Product product, TileInput input)
+    {
+        // Don't take input if we have no recipe
+        if (currentRecipe == null)
+            return false;
+
+        int required = GetIngredientCount(product.ID, currentRecipe);
+        // Accept it if the recipe needs it and we don't have too much
+        return required > 0 && CurrentIngredientCount(product.ID) < required * MaxIngredientMultiplier;
+    }
+
+    static int GetIngredientCount(ProductID ingredient, Recipe recipe)
+    {
+        Product correctInput = recipe.inputs.FirstOrDefault(input => input.ID == ingredient);
+        return correctInput == null ? 0 : correctInput.Amount;
+    }
+
+    int CurrentIngredientCount(ProductID ingredient)
+    {
+        return Products.Where(p => p.ID == ingredient).Select(p => p.Amount).Sum();
+    }
+
+    public override void OnInput(Product product, TileInput input)
+    {
+        base.OnInput(product, input);
+        
+        // If we have a recipe and have the necessary requirements
+        if (currentRecipe != null && currentRecipe.inputs.All(input => CurrentIngredientCount(input.ID) >= input.Amount))
+        {
+            StartCoroutine(Craft());
+        }
+    }
+
+    IEnumerator Craft()
+    {
+        Product outputProduct = new Product(currentRecipe.outputs[0].ID, currentRecipe.outputs[0].Amount);
+
+        // Wait until there's an open spot to put our item
+        yield return new WaitUntil(() => Outputs.Any(output => output.CanOutput(outputProduct)));
+
+        // Consume the items
+        foreach (Product product in Products)
+            product.Amount -= GetIngredientCount(product.ID, currentRecipe);
+
+        // Wait for the crafting time 
+        yield return new WaitForSeconds(currentRecipe.craftingTime);
+
+        // Wait for an open spot again (just in case)
+        // TODO: Output buffer (store items instead of waiting)?
+        yield return new WaitUntil(() => Outputs.Any(output => output.CanOutput(outputProduct)));
+
+        Outputs.First(output => output.CanOutput(outputProduct)).Output(outputProduct);
     }
 
 }
