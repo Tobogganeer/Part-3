@@ -16,6 +16,8 @@ public class Tile
     public TileOutput[] Outputs { get; private set; }
     public FactoryBuilding Building { get; private set; }
 
+    private GameObject[] ioGraphics; // Arrows showing input and output
+
     public Tile(FactoryBuilding building, TileDescriptor descriptor)
     {
         this.descriptor = descriptor;
@@ -28,6 +30,23 @@ public class Tile
             Inputs[i] = new TileInput(descriptor.inputs[i], this);
         for (int i = 0; i < descriptor.outputs.Length; i++)
             Outputs[i] = new TileOutput(descriptor.outputs[i], this);
+
+        ioGraphics = new GameObject[Inputs.Length + Outputs.Length];
+        // Spawn little arrows for each of our inputs and outputs
+        int index = 0;
+        for (int i = 0; i < Inputs.Length; i++, index++)
+        {
+            Quaternion rotation = Inputs[i].GetCurrentDirection().ToRotation();
+            ioGraphics[index] = Object.Instantiate(FactoryManager.Instance.tileInputPrefab, Vector3.zero, rotation, Building.transform);
+            ioGraphics[index].transform.localPosition = (Vector2)GridPosition;
+        }
+        for (int i = 0; i < Outputs.Length; i++, index++)
+        {
+            Quaternion rotation = Outputs[i].GetCurrentDirection().ToRotation();
+            ioGraphics[index] = Object.Instantiate(FactoryManager.Instance.tileOutputPrefab, Vector3.zero, rotation, Building.transform);
+            ioGraphics[index].transform.localPosition = (Vector2)GridPosition;
+        }
+
     }
 
     /// <summary>

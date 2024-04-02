@@ -55,6 +55,16 @@ public static class DirectionExtensions
         return -(int)direction * 90f;
     }
 
+    /// <summary>
+    /// Returns the direction as a Quaternion rotation.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public static Quaternion ToRotation(this Direction direction)
+    {
+        return Quaternion.Euler(0f, 0f, direction.ToDegrees());
+    }
+
     public static Direction Opposite(this Direction direction)
     {
         // If it's stupid but it works then it ain't stupid

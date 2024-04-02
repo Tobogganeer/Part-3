@@ -816,6 +816,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221528e9346f04444a769273b1e772c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tileInputPrefab: {fileID: 3089946288690754886, guid: 7acfef43083abc3499381d42216a3a9b, type: 3}
+  tileOutputPrefab: {fileID: 3153938255706524674, guid: 4ffb81ff24334184c80788055e13a787, type: 3}
   tileSprites:
     _values:
     - key: 0

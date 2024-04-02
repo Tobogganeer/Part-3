@@ -101,7 +101,7 @@ public class FactoryBuilding : MonoBehaviour
 
         // Set our rotation both in data and graphically
         Rotation = newUp;
-        transform.rotation = Quaternion.Euler(0, 0, newUp.ToDegrees());
+        transform.rotation = newUp.ToRotation();
     }
 }
 
