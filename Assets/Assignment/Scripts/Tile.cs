@@ -11,6 +11,7 @@ public class Tile
     /// This tile's position in the world
     /// </summary>
     public Vector2Int GridPosition => Building.GridPosition + Building.Rotation.Rotate(descriptor.offset);
+    public Vector2 WorldPosition => World.GridToWorldPosition(GridPosition);
     public TileInput[] Inputs { get; private set; }
     public TileOutput[] Outputs { get; private set; }
     public FactoryBuilding Building { get; private set; }

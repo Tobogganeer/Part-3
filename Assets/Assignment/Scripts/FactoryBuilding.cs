@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class FactoryBuilding : MonoBehaviour
 {
     [SerializeField] BuildingDescriptor descriptor;
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     public Direction Rotation { get; private set; }
     public Vector2Int GridPosition { get; private set; }
@@ -25,6 +25,27 @@ public class FactoryBuilding : MonoBehaviour
         Tiles = new Tile[descriptor.tiles.Length];
         for (int i = 0; i < Tiles.Length; i++)
             Tiles[i] = new Tile(this, descriptor.tiles[i]);
+
+        spriteRenderer.sprite = Sprite;
+        CenterSpriteRenderer();
+    }
+
+    protected void CenterSpriteRenderer()
+    {
+        Vector2 min = Tiles[0].GridPosition;
+        Vector2 max = min;
+
+        // Find the corners
+        for (int i = 0; i < Tiles.Length; i++)
+        {
+            Vector2 worldPos = Tiles[i].GridPosition;
+            min = Vector2.Min(min, worldPos);
+            max = Vector2.Max(max, worldPos);
+        }
+
+        // Put it in between the corners
+        // TODO: (maybe) account for grid sizes other than 1?
+        spriteRenderer.transform.localPosition = min + (max - min) / 2f;
     }
 
     public virtual void Place()
