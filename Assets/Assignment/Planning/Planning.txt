@@ -26,6 +26,18 @@ Chosen: Factory builder game
 
 Features: World, WorldTile, TileDescriptor, Tile, TileInput, TileOutput, BuildingDescriptor, FactoryBuilding, [Building subclasses], Product, ProductObject, Recipe, Goal, Toolbar, BuildingPlacer, HUD, FactoryManager, RecipeSelectMenu
 
+
+Milestones:
+1. Get the world and world tiles working (placement, graphics, etc)
+2. Create the building system (buildings made of tiles, temporary building placement)
+3. Get placement working (toolbar, removing buildings, building rotation)
+4. Complete the Products system
+5. Get conveyors, miners, etc working (simple subclasses)
+6. Get assemblers working (recipes, recipe select menu, etc)
+7. Get goals, hud, building unlocking working
+8. Polish
+
+
 World.cs
 - Stores the state of the world (placed buildings, where resources are, etc)
 - Creates the WorldTile objects
