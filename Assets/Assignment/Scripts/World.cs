@@ -88,14 +88,17 @@ public class World : MonoBehaviour
     /// </summary>
     /// <param name="position"></param>
     /// <returns></returns>
-    public static bool HasBuilding(Vector2Int position) => instance.tileToBuilding.ContainsKey(position);
+    public static bool HasBuilding(Vector2Int gridPosition) => instance.tileToBuilding.ContainsKey(gridPosition);
 
     /// <summary>
     /// Returns the resource type, if any, at <paramref name="position"/>.
     /// </summary>
     /// <param name="position"></param>
     /// <returns></returns>
-    public static ProductID GetResourceType(Vector2Int position) => instance.worldTiles[position].Product;
+    public static ProductID GetResourceType(Vector2Int gridPosition) => GetWorldTile(gridPosition).Product;
+
+    public static WorldTile GetWorldTile(Vector2Int gridPosition) => instance.worldTiles[gridPosition];
+
 
     /// <summary>
     /// Returns the center of the grid cell at <paramref name="gridPosition"/>.
@@ -107,10 +110,28 @@ public class World : MonoBehaviour
         return instance._GridToWorldPosition(gridPosition);
     }
 
+    /// <summary>
+    /// Returns the closest grid position to the <paramref name="worldPosition"/>.
+    /// </summary>
+    /// <param name="worldPosition"></param>
+    /// <returns></returns>
+    public static Vector2Int WorldToGridPosition(Vector2 worldPosition)
+    {
+        return instance._WorldToGridPosition(worldPosition);
+    }
+
     // Local function so gizmos won't complain about the singleton
     Vector2 _GridToWorldPosition(Vector2Int gridPosition)
     {
         return (Vector2)gridPosition * worldTileSize + GetWorldOffset();
+    }
+
+    Vector2Int _WorldToGridPosition(Vector2 worldPosition)
+    {
+        // Make sure the position is a valid grid position
+        Vector2Int gridPosition = Vector2Int.RoundToInt((worldPosition / worldTileSize) - GetWorldOffset());
+        gridPosition.Clamp(Vector2Int.zero, worldSize - Vector2Int.one);
+        return gridPosition;
     }
 
 
