@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class TileDescriptor
 {
-    public Vector2Int position;
+    public Vector2Int offset;
     public Direction[] inputs;
     public Direction[] outputs;
 }

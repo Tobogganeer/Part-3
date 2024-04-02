@@ -60,4 +60,20 @@ public static class DirectionExtensions
         // If it's stupid but it works then it ain't stupid
         return direction.RotateRight().RotateRight();
     }
+
+    /// <summary>
+    /// Rotates the vector <paramref name="v"/> to us this vector as the new up.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public static Vector2Int Rotate(this Direction direction, Vector2Int v)
+    {
+        return direction switch
+        {
+            Direction.Right => new Vector2Int(v.y, -v.x),
+            Direction.Down => -v, // Flip it
+            Direction.Left => new Vector2Int(-v.y, v.x),
+            _ => v
+        };
+    }
 }

@@ -5,14 +5,19 @@ using UnityEngine;
 
 public class Tile
 {
-    public Vector2Int Position {  get; private set; }
+    private TileDescriptor descriptor;
+
+    /// <summary>
+    /// This tile's position in the world
+    /// </summary>
+    public Vector2Int GridPosition => Building.GridPosition + Building.Rotation.Rotate(descriptor.offset);
     public TileInput[] Inputs { get; private set; }
     public TileOutput[] Outputs { get; private set; }
     public FactoryBuilding Building { get; private set; }
 
     public Tile(FactoryBuilding building, TileDescriptor descriptor)
     {
-        Position = descriptor.position; // TODO: Account for rotation here
+        this.descriptor = descriptor;
         Building = building;
         Inputs = new TileInput[descriptor.inputs.Length];
         Outputs = new TileOutput[descriptor.outputs.Length];
