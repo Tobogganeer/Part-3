@@ -25,6 +25,8 @@ public class World : MonoBehaviour
     Dictionary<Vector2Int, FactoryBuilding> tileToBuilding = new Dictionary<Vector2Int, FactoryBuilding>();
     Dictionary<Vector2Int, Tile> gridPositionToTile = new Dictionary<Vector2Int, Tile>();
 
+    public static float TileSize => instance.worldTileSize; // Usually just 1 thankfully
+
     private void Start()
     {
         for (int x = 0; x < worldSize.x; x++)
