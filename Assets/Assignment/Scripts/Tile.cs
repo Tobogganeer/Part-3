@@ -95,6 +95,12 @@ public class Tile
         }
         return false;
     }
+
+
+    public bool TryGetNeighbour(Direction direction, out Tile neighbour)
+    {
+        return World.TryGetBuildingTile(GridPosition + direction.Offset(), out neighbour);
+    }
 }
 
 /*

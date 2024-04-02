@@ -8,17 +8,30 @@ public class TileOutput : TileIO
 
     public bool CanOutput(Product product)
     {
-        Direction dir = GetCurrentDirection();
-        // Check if we even have a neighbour
-        if (World.TryGetBuildingTile(tile.GridPosition + dir.Offset(), out Tile neighbour))
-        {
-            if (neighbour.TryGetInput(dir.Opposite(), out TileInput input) && input.CanInput(product)) ;
-        }
+        // Check if we have a neighbour with an input that we can give our product to
+        return TryGetNeighbourInput(GetCurrentDirection(), out TileInput input) && input.CanInput(product);
     }
 
-    public void Output(Product product)
+    /// <summary>
+    /// Output the <paramref name="product"/> to the neighbouring tile.
+    /// </summary>
+    /// <param name="product"></param>
+    /// <returns>Whether or not the product was output successfully</returns>
+    public bool Output(Product product)
     {
-        //tile.Building.OnInput(product, this);
+        // Check if it is valid
+        if (CanOutput(product))
+            return false;
+
+        // Get the neighbour and send it
+        return TryGetNeighbourInput(GetCurrentDirection(), out TileInput input) && input.Input(product);
+    }
+
+    bool TryGetNeighbourInput(Direction dir, out TileInput input)
+    {
+        input = null;
+        // If we have a neighbour, try to get the input in the correct direction
+        return tile.TryGetNeighbour(dir, out Tile neighbour) && neighbour.TryGetInput(dir.Opposite(), out input);
     }
 }
 

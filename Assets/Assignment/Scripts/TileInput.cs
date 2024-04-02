@@ -11,9 +11,18 @@ public class TileInput : TileIO
         return tile.Building.WillAccept(product, this);
     }
 
-    public void Input(Product product)
+    /// <summary>
+    /// Input the <paramref name="product"/> into the building.
+    /// </summary>
+    /// <param name="product"></param>
+    /// <returns>Whether or not the product was input successfully</returns>
+    public bool Input(Product product)
     {
+        if (!CanInput(product))
+            return false;
+
         tile.Building.OnInput(product, this);
+        return true;
     }
 }
 
