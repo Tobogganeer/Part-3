@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class ProductObject : MonoBehaviour
 {
-    void Start()
+    public ProductID id;
+
+    private void Start()
     {
-
-    }
-
-    void Update()
-    {
-
+        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.productSprites.dict[id];
     }
 }
 

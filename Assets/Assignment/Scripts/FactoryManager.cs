@@ -11,6 +11,7 @@ public class FactoryManager : MonoBehaviour
     }
 
     public SerializableDictionary<ProductID, Sprite> tileSprites;
+    public SerializableDictionary<ProductID, Sprite> productSprites;
     public SerializableDictionary<BuildingType, BuildingDescriptor> buildings;
 
 
