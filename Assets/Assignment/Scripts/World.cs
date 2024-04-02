@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class World : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
+    public GameObject worldTilePrefab;
+    public float worldTileSize; // Units
+    public Vector2Int worldSize; // Tiles
+    public SerializableDictionary<Vector2Int, ProductID> resourceLocations;
 
-    void Update()
-    {
-        
-    }
+    // All tiles in the world
+    Dictionary<Vector2Int, WorldTile> worldTiles = new Dictionary<Vector2Int, WorldTile>();
+    // All buildings in the world
+    Dictionary<Vector2Int, FactoryBuilding> buildings = new Dictionary<Vector2Int, FactoryBuilding>();
+    // For multi-tile buildings - store what buildings occupy each world tile
+    Dictionary<WorldTile, FactoryBuilding> tileToBuilding = new Dictionary<WorldTile, FactoryBuilding>();
 }
 
 /*
