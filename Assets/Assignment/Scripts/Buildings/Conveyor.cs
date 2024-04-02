@@ -9,6 +9,10 @@ public class Conveyor : FactoryBuilding
     public float transportDelay = 1f;
 
     //protected State state;
+    // Bug where conveyors both try to put items on at the same time
+    // They both see this is empty so try to go
+    // Solution: almost like a lock in threading, have this
+    public Conveyor Lock { get; private set; }
 
     public override bool WillAccept(Product product, TileInput input)
     {
@@ -35,12 +39,32 @@ public class Conveyor : FactoryBuilding
         yield return MoveProductObject(visuals, inputPosition, center, GetTransportTime() / 2f);
 
         // Hold the item until we can get rid of it
-        yield return new WaitUntil(() => HasValidOutput(product));
+        TileOutput output;
+        Conveyor neighbour = null;
+        while (!TryGetOpenOutput(product, out output))
+            yield return null;
+
+        // We want to see if we are putting items into a claimed conveyor
+        if (output.TryGetNeighbourInput(output.GetCurrentDirection(), out TileInput neighbourInput))
+        {
+            BuildingType type = neighbourInput.Tile.Building.Type;
+            // Check if it's a conveyor
+            if (type == BuildingType.Conveyor || type == BuildingType.UndergroundOutput)
+            {
+                neighbour = (Conveyor)neighbourInput.Tile.Building;
+                // Wait until the lock is free
+                while (neighbour.Lock != null)
+                    yield return null;
+
+                // Now it is ours, and other conveyors won't collide with us
+                neighbour.Claim(this);
+            }
+        }
 
         // For our purposes, we aren't storing the product any more. Free up the space to let more products flow in.
         Products.Remove(product);
 
-        Vector2 outputPosition = center + (Vector2)GetOutputDirection(product).Offset() * World.TileSize / 2f;
+        Vector2 outputPosition = center + (Vector2)output.GetCurrentDirection().Offset() * World.TileSize / 2f;
         // Move the product from the middle of the tile to the output (the other half of the time)
         yield return MoveProductObject(visuals, center, outputPosition, GetTransportTime() / 2f);
 
@@ -48,6 +72,18 @@ public class Conveyor : FactoryBuilding
         if (HasValidOutput(product))
             OutputProduct(product);
         visuals.Obliterate(); // Goodbye visuals, you've served us well
+        if (neighbour != null)
+            neighbour.ClearClaim();
+    }
+
+    public void Claim(Conveyor puttingItemOnNext)
+    {
+        Lock = puttingItemOnNext;
+    }
+
+    public void ClearClaim()
+    {
+        Lock = null;
     }
 
     protected virtual IEnumerator MoveProductObject(ProductObject obj, Vector2 from, Vector2 to, float time)
@@ -64,9 +100,13 @@ public class Conveyor : FactoryBuilding
 
     protected virtual float GetTransportTime() => transportDelay;
     protected virtual Direction GetInputDirection(TileInput input) => input.GetCurrentDirection();
-    protected virtual bool HasValidOutput(Product product) => Outputs.Any(output => output.CanOutput(product));
+    protected virtual bool HasValidOutput(Product product) => TryGetOpenOutput(product, out _);
     protected virtual Direction GetOutputDirection(Product product) => Outputs.First(output => output.CanOutput(product)).GetCurrentDirection();
-    protected virtual void OutputProduct(Product product) => Outputs.FirstOrDefault(output => output.CanOutput(product))?.Output(product);
+    protected virtual void OutputProduct(Product product)
+    {
+        if (TryGetOpenOutput(product, out TileOutput output))
+            output.Output(product);
+    }
 
     /*
     protected enum State

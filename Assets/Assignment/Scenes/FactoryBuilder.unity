@@ -884,6 +884,17 @@ MonoBehaviour:
       value: {fileID: 7172965951136198339, guid: f3639da505389994d89791efe88d1a45, type: 3}
     - key: 7
       value: {fileID: 7172965951136198339, guid: bdc58c134798873408b84d77241dd988, type: 3}
+  _recipes:
+  - {fileID: 11400000, guid: b106eb46cdb89814ebc140eeefcc6982, type: 2}
+  - {fileID: 11400000, guid: ab34615d80df5ba4d8d9feaa56723b21, type: 2}
+  - {fileID: 11400000, guid: 2e07fc73d705b9b41be77eccbc691025, type: 2}
+  - {fileID: 11400000, guid: 9060d5a39f14b1f42b698816018fef4d, type: 2}
+  - {fileID: 11400000, guid: 627823e186b01ac4ea2193afceb7efec, type: 2}
+  - {fileID: 11400000, guid: 21967ff4a45d33d42b95be4817cd0aa2, type: 2}
+  - {fileID: 11400000, guid: fb33db1e009d3e84ab25afcf8dbd8c89, type: 2}
+  - {fileID: 11400000, guid: 4b962c2395e729543b0b20adaed0dafd, type: 2}
+  - {fileID: 11400000, guid: 7ee21ba03df248649badcfb800a3e959, type: 2}
+  - {fileID: 11400000, guid: 2df6eba9769dcb5488e472552ddb0ff4, type: 2}
 --- !u!4 &658912151
 Transform:
   m_ObjectHideFlags: 0
@@ -1353,7 +1364,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

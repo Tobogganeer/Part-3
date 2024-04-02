@@ -80,6 +80,21 @@ public class FactoryBuilding : MonoBehaviour
 
     public virtual bool WillAccept(Product product, TileInput input) => true;
 
+    public virtual bool TryGetOpenOutput(Product product, out TileOutput output)
+    {
+        for (int i = 0; i < Outputs.Length; i++)
+        {
+            if (Outputs[i].CanOutput(product))
+            {
+                output = Outputs[i];
+                return true;
+            }
+        }
+
+        output = null;
+        return false;
+    }
+
     
     public void SetPosition(Vector2Int gridPosition)
     {

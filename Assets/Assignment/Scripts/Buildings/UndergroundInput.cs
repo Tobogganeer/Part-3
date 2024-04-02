@@ -24,7 +24,8 @@ public class UndergroundInput : Conveyor
         yield return MoveProductObject(visuals, inputPosition, center, GetTransportTime() / 2f);
 
         // Hold the item until we can get rid of it
-        yield return new WaitUntil(() => HasValidOutput(product));
+        while (!HasValidOutput(product))
+            yield return null;
 
         // For our purposes, we aren't storing the product any more. Free up the space to let more products flow in.
         Products.Remove(product);
@@ -45,7 +46,8 @@ public class UndergroundInput : Conveyor
         if (output != null)
         {
             // Wait for the output to open up or be destroyed (just in case)
-            yield return new WaitUntil(() => output.WillAccept(product, null) || output == null);
+            while (output != null && !output.WillAccept(product, null))
+                yield return null;
             OutputProduct(product);
         }
 

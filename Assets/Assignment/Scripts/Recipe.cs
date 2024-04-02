@@ -5,7 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Recipe")]
 public class Recipe : ScriptableObject
 {
-    
+    public List<Product> inputs;
+    public List<Product> outputs;
+    public float craftingTime = 1f;
 }
 
 /*

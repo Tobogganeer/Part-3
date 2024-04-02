@@ -69,9 +69,20 @@ public class BuildingPlacer : MonoBehaviour
                 Direction rotation = currentGhost.Rotation;
                 currentGhost = null; // We did it, huzzah
 
-                StartPlacement(currentType); // Start placing again
-                StartCoroutine(RotateNewGhost(rotation)); // Keep the same rotation
-                //IOGraphic.SetVisibility(false); // Turn off IO graphics
+                // Assemblers open up the recipe menu when placed so stop here
+                // (could be better, maybe some flag in the descriptor, don't care so much rn)
+                if (currentType == BuildingType.Assembler)
+                {
+                    // Turn off IO graphics
+                    IOGraphic.SetVisibility(false);
+                }
+                else
+                {
+                    // For other buildings just keep going
+                    StartPlacement(currentType); // Start placing again
+                    StartCoroutine(RotateNewGhost(rotation)); // Keep the same rotation
+                }
+                     
                 return;
             }
         }
