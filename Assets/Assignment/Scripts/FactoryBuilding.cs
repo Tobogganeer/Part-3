@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class FactoryBuilding : MonoBehaviour
 {
-    [SerializeField] BuildingDescriptor descriptor;
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] protected BuildingDescriptor descriptor;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
 
     public Direction Rotation { get; private set; }
     public Vector2Int GridPosition { get; private set; }
     public Tile[] Tiles { get; private set; }
+    public TileInput[] Inputs { get; private set; }
+    public TileOutput[] Outputs { get; private set; }
     public bool Created { get ; private set; }
     public List<Product> Products { get; private set; } = new List<Product>();
 
@@ -37,6 +40,10 @@ public class FactoryBuilding : MonoBehaviour
         Tiles = new Tile[descriptor.tiles.Length];
         for (int i = 0; i < Tiles.Length; i++)
             Tiles[i] = new Tile(this, descriptor.tiles[i]);
+
+        // Store all the inputs and outputs in one place
+        Inputs = Tiles.SelectMany(tile => tile.Inputs).ToArray();
+        Outputs = Tiles.SelectMany(tile => tile.Outputs).ToArray();
 
         spriteRenderer.sprite = Sprite;
         spriteRenderer.color = new Color(1f, 1f, 1f, 0.5f); // Transparent until we are placed

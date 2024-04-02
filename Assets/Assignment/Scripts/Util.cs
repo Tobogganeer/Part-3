@@ -57,4 +57,6 @@ public class SerializableDictionary<TKey, TValue>
 
         return newDict;
     }
+
+    public TValue this[TKey key] => dict[key];
 }
