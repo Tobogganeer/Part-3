@@ -6,7 +6,17 @@ public class TileInput
 {
     Direction direction;
     Tile tile;
-    Building building;
+
+    public TileInput(Direction direction, Tile tile)
+    {
+        this.tile = tile;
+        this.direction = direction;
+    }
+
+    public bool CanInput(Product product)
+    {
+        return tile.Building.WillAccept(product, this);
+    }
 }
 
 /*

@@ -5,6 +5,8 @@ using UnityEngine;
 public class FactoryBuilding : MonoBehaviour
 {
     public Vector2Int gridPosition;
+
+    public virtual bool WillAccept(Product product, TileInput input) => true;
 }
 
 /*

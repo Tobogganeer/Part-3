@@ -7,9 +7,9 @@ public class Tile
     public Vector2Int Position {  get; private set; }
     public TileInput[] Inputs { get; private set; }
     public TileOutput[] Outputs { get; private set; }
-    public Building Building { get; private set; }
+    public FactoryBuilding Building { get; private set; }
 
-    public Tile(Building building, TileDescriptor descriptor)
+    public Tile(FactoryBuilding building, TileDescriptor descriptor)
     {
         Position = descriptor.position;
         //Inputs = 
