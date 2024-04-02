@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class TileInput
 {
-    
+    Direction direction;
+    Tile tile;
+    Building building;
 }
 
 /*

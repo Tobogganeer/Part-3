@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class Tile
 {
+    public Vector2Int Position {  get; private set; }
+    public TileInput[] Inputs { get; private set; }
+    public TileOutput[] Outputs { get; private set; }
+    public Building Building { get; private set; }
 
+    public Tile(Building building, TileDescriptor descriptor)
+    {
+        Position = descriptor.position;
+        //Inputs = 
+        Building = building;
+    }
 }
 
 /*

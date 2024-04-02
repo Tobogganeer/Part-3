@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class TileDescriptor
 {
-    
+    public Vector2Int position;
+    public Direction[] inputs;
+    public Direction[] outputs;
 }
 
 /*
