@@ -27,9 +27,9 @@ public class FactoryBuilding : MonoBehaviour
             Tiles[i] = new Tile(this, descriptor.tiles[i]);
     }
 
-    public virtual void Place(Vector2Int position)
+    public virtual void Place()
     {
-        SetPosition(position); // Set our transform and data position
+        //SetPosition(GridPosition); // Set our transform and data position
         Created = true;
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class World : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class World : MonoBehaviour
     // All tiles in the world
     Dictionary<Vector2Int, WorldTile> worldTiles = new Dictionary<Vector2Int, WorldTile>();
     // All buildings in the world
-    Dictionary<Vector2Int, FactoryBuilding> buildings = new Dictionary<Vector2Int, FactoryBuilding>();
+    List<FactoryBuilding> buildings = new List<FactoryBuilding>();
     // For multi-tile buildings - store what buildings occupy each world tile
     Dictionary<Vector2Int, FactoryBuilding> tileToBuilding = new Dictionary<Vector2Int, FactoryBuilding>();
 
@@ -62,25 +63,42 @@ public class World : MonoBehaviour
         return worldPositionOffset - halfWorldSize + halfTileSize;
     }
 
-    public static bool CanPlaceBuilding(Vector2Int gridPosition, FactoryBuilding building)
+    public static bool CanPlaceBuilding(FactoryBuilding building)
     {
-        // Make sure all tiles don't have buildings
-        //return worldTiles.All((tile) => !tile.HasBuilding());
+        List<WorldTile> worldTiles = new List<WorldTile>();
 
-        // TODO: Check building's tiles
-        throw new System.NotImplementedException();
+        foreach (Tile tile in building.Tiles)
+        {
+            // Check if each tile on the building is out of bounds
+            if (!instance.worldTiles.TryGetValue(tile.GridPosition, out WorldTile wt))
+                return false;
+            worldTiles.Add(wt);
+        }
+
+        // Make sure all tiles don't have buildings and that this position is agreeable to the building
+        return building.CanBePlacedOn(worldTiles) && worldTiles.All((tile) => !tile.HasBuilding());
     }
 
-    public static void PlaceBuilding(Vector2Int gridPosition, FactoryBuilding building)
+    public static void PlaceBuilding(FactoryBuilding building)
     {
-        // TODO: Place building
-        throw new System.NotImplementedException();
+        // We assume it can be placed here... big trust being thrown around
+        building.Place();
+
+        // Add the building's info to our vaults
+        instance.buildings.Add(building);
+        foreach (Tile tile in building.Tiles)
+            instance.tileToBuilding[tile.GridPosition] = building;
     }
 
     public static void RemoveBuilding(FactoryBuilding building)
     {
-        // TODO: Remove building and tiles
-        throw new System.NotImplementedException();
+        // Obliterate that structure
+        Destroy(building.gameObject);
+
+        // Expunge the building's data
+        instance.buildings.Remove(building);
+        foreach (Tile tile in building.Tiles)
+            instance.tileToBuilding.Remove(tile.GridPosition);
     }
 
     /// <summary>
