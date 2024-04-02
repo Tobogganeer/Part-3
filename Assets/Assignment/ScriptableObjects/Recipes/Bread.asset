@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0e20c4d6c7f2a4ead17ba4169f1d42, type: 3}
   m_Name: Bread
   m_EditorClassIdentifier: 
-  inputs: []
-  outputs: []
+  inputs:
+  - <ID>k__BackingField: 8
+    <Amount>k__BackingField: 1
+  - <ID>k__BackingField: 1
+    <Amount>k__BackingField: 1
+  outputs:
+  - <ID>k__BackingField: 13
+    <Amount>k__BackingField: 1
   craftingTime: 1
