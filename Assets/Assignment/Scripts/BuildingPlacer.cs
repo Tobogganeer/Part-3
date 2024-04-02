@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
 public class BuildingPlacer : MonoBehaviour
 {
@@ -29,6 +28,37 @@ public class BuildingPlacer : MonoBehaviour
             currentGhost = Instantiate(currentGhost, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
             currentGhost.Init(buildingType);
         }
+    }
+
+    private void Update()
+    {
+        // We only need to update the ghost
+        if (currentGhost == null)
+            return;
+
+        // Place the building on left click
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+            TryPlaceGhost();
+        // ... and cancel placement on right click
+        else if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            CancelPlacement();
+            return;
+        }
+
+        // Rotate the building with R (anti-clockwise if holding shift)
+        if (Input.GetKeyDown(KeyCode.R))
+            currentGhost.SetRotation(Input.GetKey(KeyCode.LeftShift) ?
+                currentGhost.Rotation.RotateLeft() : currentGhost.Rotation.RotateRight());
+
+        // Make it follow the mouse
+        currentGhost.SetPosition(World.WorldToGridPosition(CursorPosition));
+    }
+
+    void TryPlaceGhost()
+    {
+        if (World.PlaceBuilding(currentGhost))
+            currentGhost = null; // We did it, huzzah
     }
 
     public void CancelPlacement()
