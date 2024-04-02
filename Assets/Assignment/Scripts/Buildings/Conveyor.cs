@@ -35,7 +35,8 @@ public class Conveyor : FactoryBuilding
         yield return MoveProductObject(visuals, inputPosition, center, GetTransportTime() / 2f);
 
         // Hold the item until we can get rid of it
-        yield return new WaitUntil(() => HasValidOutput(product));
+        while (!HasValidOutput(product))
+            yield return null;
 
         // For our purposes, we aren't storing the product any more. Free up the space to let more products flow in.
         Products.Remove(product);
@@ -64,7 +65,7 @@ public class Conveyor : FactoryBuilding
 
     protected virtual float GetTransportTime() => transportDelay;
     protected virtual Direction GetInputDirection(TileInput input) => input.GetCurrentDirection();
-    protected virtual bool HasValidOutput(Product product) => Outputs.Any(output => output.CanOutput(product));
+    protected virtual bool HasValidOutput(Product product) => TryGetOpenOutput(product, out _);
     protected virtual Direction GetOutputDirection(Product product) => Outputs.First(output => output.CanOutput(product)).GetCurrentDirection();
     protected virtual void OutputProduct(Product product) => Outputs.FirstOrDefault(output => output.CanOutput(product))?.Output(product);
 

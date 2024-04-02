@@ -65,7 +65,12 @@ public class Assembler : FactoryBuilding
         // Count how much of each product we have
         Dictionary<ProductID, int> productSums = new Dictionary<ProductID, int>();
         foreach (Product p in Products)
-            productSums[p.ID] += p.Amount;
+        {
+            if (!productSums.ContainsKey(p.ID))
+                productSums.Add(p.ID, p.Amount);
+            else
+                productSums[p.ID] += p.Amount;
+        }
 
         // Wipe them all out
         Products.Clear();
@@ -117,12 +122,19 @@ public class Assembler : FactoryBuilding
         }
     }
 
+    public override void OnInput(Product product, TileInput input)
+    {
+        base.OnInput(product, input);
+        ClampIngredients();
+    }
+
     IEnumerator Craft()
     {
         Product outputProduct = new Product(currentRecipe.outputs[0].ID, currentRecipe.outputs[0].Amount);
 
         // Wait until there's an open spot to put our item
-        yield return new WaitUntil(() => Outputs.Any(output => output.CanOutput(outputProduct)));
+        while (!TryGetOpenOutput(outputProduct, out _))
+            yield return null;
 
         // Consume the items
         foreach (Product product in Products)
@@ -133,9 +145,11 @@ public class Assembler : FactoryBuilding
 
         // Wait for an open spot again (just in case)
         // TODO: Output buffer (store items instead of waiting)?
-        yield return new WaitUntil(() => Outputs.Any(output => output.CanOutput(outputProduct)));
+        TileOutput output;
+        while (!TryGetOpenOutput(outputProduct, out output))
+            yield return null;
 
-        Outputs.First(output => output.CanOutput(outputProduct)).Output(outputProduct);
+        output.Output(outputProduct);
         craftCoroutine = null;
     }
 
