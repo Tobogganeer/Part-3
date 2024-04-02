@@ -21,7 +21,7 @@ public class World : MonoBehaviour
     // All buildings in the world
     Dictionary<Vector2Int, FactoryBuilding> buildings = new Dictionary<Vector2Int, FactoryBuilding>();
     // For multi-tile buildings - store what buildings occupy each world tile
-    Dictionary<WorldTile, FactoryBuilding> tileToBuilding = new Dictionary<WorldTile, FactoryBuilding>();
+    Dictionary<Vector2Int, FactoryBuilding> tileToBuilding = new Dictionary<Vector2Int, FactoryBuilding>();
 
     private void Start()
     {
@@ -64,6 +64,9 @@ public class World : MonoBehaviour
 
     public static bool CanPlaceBuilding(Vector2Int gridPosition, FactoryBuilding building)
     {
+        // Make sure all tiles don't have buildings
+        //return worldTiles.All((tile) => !tile.HasBuilding());
+
         // TODO: Check building's tiles
         throw new System.NotImplementedException();
     }
@@ -79,6 +82,20 @@ public class World : MonoBehaviour
         // TODO: Remove building and tiles
         throw new System.NotImplementedException();
     }
+
+    /// <summary>
+    /// Does the <paramref name="position"/> have a building tile on it?
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public static bool HasBuilding(Vector2Int position) => instance.tileToBuilding.ContainsKey(position);
+
+    /// <summary>
+    /// Returns the resource type, if any, at <paramref name="position"/>.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public static ProductID GetResourceType(Vector2Int position) => instance.worldTiles[position].Product;
 
 
     private void OnDrawGizmos()

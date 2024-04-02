@@ -19,6 +19,12 @@ public class WorldTile : MonoBehaviour
         // Set our sprite
         GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.tileSprites.dict[Product];
     }
+
+    /// <summary>
+    /// Is this tile occupied by a building?
+    /// </summary>
+    /// <returns></returns>
+    public bool HasBuilding() => World.HasBuilding(GridPosition);
 }
 
 /*

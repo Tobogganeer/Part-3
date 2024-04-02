@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class FactoryBuilding : MonoBehaviour
 {
@@ -18,16 +20,41 @@ public class FactoryBuilding : MonoBehaviour
     public Sprite Sprite => descriptor.sprite;
 
 
+    protected virtual void Start()
+    {
+        // Create tiles
+        Tiles = new Tile[descriptor.tiles.Length];
+        for (int i = 0; i < Tiles.Length; i++)
+            Tiles[i] = new Tile(this, descriptor.tiles[i]);
+    }
+
+    public virtual void Place(Vector2Int position)
+    {
+        GridPosition = position;
+        Created = true;
+    }
+
+    protected virtual void Tick() { }
+
+    void Update()
+    {
+        if (Created)
+            Tick();
+    }
+
+    public virtual bool CanBePlacedOn(List<WorldTile> worldTiles) => true;
+
+    public virtual void OnInput(Product product, TileInput input) => Products.Add(product);
+
+    public virtual bool WillAccept(Product product, TileInput input) => true;
+
+    
     public void SetRotation(Direction newUp)
     {
         // Set our rotation both in data and graphically
         Rotation = newUp;
         transform.rotation = Quaternion.Euler(0, 0, newUp.ToDegrees());
     }
-
-    public virtual bool WillAccept(Product product, TileInput input) => true;
-
-    public virtual void OnInput(Product product, TileInput input) => Products.Add(product);
 }
 
 public enum BuildingType
