@@ -59,6 +59,8 @@ public class FactoryManager : MonoBehaviour
         Instance.UpdateGoalUI();
     }
 
+    public static Dictionary<ProductID, int> GetCurrentOutboxes() => Instance.currentOutboxes;
+
     void CheckForGoalCompletion()
     {
         // We've reached the end
@@ -77,13 +79,8 @@ public class FactoryManager : MonoBehaviour
 
     void UpdateGoalUI()
     {
-        // We've reached the end
-        if (currentGoal >= goals.Count)
-        {
-            // Special stuff here
-        }
-
-
+        // Give the HUD the current goal, or null if we are done
+        HUD.SetCurrentGoal(currentGoal >= goals.Count ? null : goals[currentGoal]);
     }
 }
 
