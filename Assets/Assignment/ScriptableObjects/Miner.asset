@@ -27,4 +27,4 @@ MonoBehaviour:
     inputs: 
     outputs: 
   type: 2
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: fdbab2a082534d0409069a28e717443d, type: 3}

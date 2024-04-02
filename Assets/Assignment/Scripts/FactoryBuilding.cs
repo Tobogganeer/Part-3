@@ -21,6 +21,9 @@ public class FactoryBuilding : MonoBehaviour
 
     protected virtual void Start()
     {
+        // Set our GameObject's name properly
+        name = descriptor.name;
+
         // Create tiles
         Tiles = new Tile[descriptor.tiles.Length];
         for (int i = 0; i < Tiles.Length; i++)
