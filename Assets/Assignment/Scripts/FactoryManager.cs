@@ -11,6 +11,19 @@ public class FactoryManager : MonoBehaviour
     }
 
     public SerializableDictionary<ProductID, Sprite> tileSprites;
+    public SerializableDictionary<BuildingType, BuildingDescriptor> buildings;
+
+
+    public static HashSet<BuildingType> GetCurrentlyUnlockedBuildings()
+    {
+        // TODO: Actually implement
+
+        // For testing purposes just have all buildings unlocked
+        HashSet<BuildingType> unlocked =
+            new HashSet<BuildingType>((BuildingType[])System.Enum.GetValues(typeof(BuildingType)));
+
+        return unlocked;
+    }
 }
 
 /*

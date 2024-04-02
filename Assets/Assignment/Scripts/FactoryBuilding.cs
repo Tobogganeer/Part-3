@@ -19,6 +19,15 @@ public class FactoryBuilding : MonoBehaviour
     public Sprite Sprite => descriptor.sprite;
 
 
+    /// <summary>
+    /// Call this when the building is first created.
+    /// </summary>
+    /// <param name="type"></param>
+    public void Init(BuildingType type)
+    {
+        descriptor = FactoryManager.Instance.buildings.dict[type];
+    }
+
     protected virtual void Start()
     {
         // Set our GameObject's name properly
@@ -30,6 +39,7 @@ public class FactoryBuilding : MonoBehaviour
             Tiles[i] = new Tile(this, descriptor.tiles[i]);
 
         spriteRenderer.sprite = Sprite;
+        spriteRenderer.color = new Color(1f, 1f, 1f, 0.5f); // Transparent until we are placed
         CenterSpriteRenderer();
     }
 
@@ -55,32 +65,16 @@ public class FactoryBuilding : MonoBehaviour
     {
         //SetPosition(GridPosition); // Set our transform and data position
         Created = true;
+        // Set us to full alpha
+        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
     }
 
     protected virtual void Tick() { }
-
-    Vector2 testPos;
 
     void Update()
     {
         if (Created)
             Tick();
-
-        // TESTING
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (Created)
-                World.RemoveBuilding(this);
-            else
-                World.PlaceBuilding(this);
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-            SetRotation(Rotation.RotateRight());
-
-        testPos.x += Input.GetAxis("Horizontal") * 0.1f;
-        testPos.y += Input.GetAxis("Vertical") * 0.1f;
-        SetPosition(World.WorldToGridPosition(testPos));
     }
 
     public virtual bool CanBePlacedOn(List<WorldTile> worldTiles) => true;
@@ -102,27 +96,12 @@ public class FactoryBuilding : MonoBehaviour
     public void SetRotation(Direction newUp)
     {
         // No editing after we have been created (if we are too big, allow 1x1s to rotate)
+        // TODO: (maybe) Allow all square buildings to rotate (calculate and move pivot)
         if (Created && (Size.x > 1 || Size.y > 1)) return;
 
         // Set our rotation both in data and graphically
         Rotation = newUp;
         transform.rotation = Quaternion.Euler(0, 0, newUp.ToDegrees());
-    }
-
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(testPos, 0.3f);
-
-        Gizmos.color = Color.yellow;
-        if (Tiles != null)
-            foreach (Tile tile in Tiles)
-                Gizmos.DrawSphere(World.GridToWorldPosition(tile.GridPosition), 0.3f);
-
-        Gizmos.color = Color.red;
-        if (Application.isPlaying)
-            Gizmos.DrawSphere(World.GridToWorldPosition(GridPosition), 0.3f);
     }
 }
 

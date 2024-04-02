@@ -4,14 +4,92 @@ using UnityEngine;
 
 public class BuildingPlacer : MonoBehaviour
 {
-    void Start()
-    {
+    public GameObject buildingPrefab;
 
+    FactoryBuilding currentGhost;
+    Camera mainCam;
+    int framesSinceStartedPlacement;
+
+    Vector2 CursorPosition => mainCam.ScreenToWorldPoint(Input.mousePosition);
+
+    private void Start()
+    {
+        mainCam = Camera.main;
     }
 
-    void Update()
+    public void StartPlacement(BuildingType buildingType)
     {
+        // If we already have a building we are placing, destroy it instead
+        // (The player clicked on the toolbar with a building in their hand, they want to put it back)
+        if (currentGhost != null)
+            CancelPlacement();
+        else
+        {
+            // Spawn and initialize the building
+            currentGhost = Instantiate(buildingPrefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
+            currentGhost.Init(buildingType);
+            framesSinceStartedPlacement = 0;
+        }
+    }
 
+    private void Update()
+    {
+        framesSinceStartedPlacement++;
+
+        // Only update the ghost if it's been more than a few frames
+        if (currentGhost != null && framesSinceStartedPlacement >= 5)
+            UpdateGhost();
+        else
+        {
+            // See if we are hovering over any buildings
+            if (World.TryGetBuilding(World.WorldToGridPosition(CursorPosition), out FactoryBuilding building))
+            {
+                // Try to remove buildings on right click
+                if (Input.GetKeyDown(KeyCode.Mouse1))
+                    World.RemoveBuilding(building);
+                // Try to rotate 1x1 buildings
+                else if (Input.GetKeyDown(KeyCode.R))
+                    building.SetRotation(Input.GetKey(KeyCode.LeftShift) ?
+                        building.Rotation.RotateLeft() : building.Rotation.RotateRight());
+            }
+
+        }
+    }
+
+    void UpdateGhost()
+    {
+        // Place the building on left click
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            if (World.PlaceBuilding(currentGhost))
+            {
+                currentGhost = null; // We did it, huzzah
+                return;
+            }
+        }
+        // ... and cancel placement on right click
+        else if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            CancelPlacement();
+            return;
+        }
+
+        // Rotate the building with R (anti-clockwise if holding shift)
+        if (Input.GetKeyDown(KeyCode.R))
+            currentGhost.SetRotation(Input.GetKey(KeyCode.LeftShift) ?
+                currentGhost.Rotation.RotateLeft() : currentGhost.Rotation.RotateRight());
+
+        // Make it follow the mouse
+        currentGhost.SetPosition(World.WorldToGridPosition(CursorPosition));
+    }
+
+    public void CancelPlacement()
+    {
+        if (currentGhost != null)
+        {
+            Destroy(currentGhost.gameObject);
+            currentGhost = null;
+        }
     }
 }
 
