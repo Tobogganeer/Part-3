@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class FactoryBuilding : MonoBehaviour
 {
@@ -30,7 +29,7 @@ public class FactoryBuilding : MonoBehaviour
 
     public virtual void Place(Vector2Int position)
     {
-        GridPosition = position;
+        SetPosition(position); // Set our transform and data position
         Created = true;
     }
 
@@ -49,8 +48,20 @@ public class FactoryBuilding : MonoBehaviour
     public virtual bool WillAccept(Product product, TileInput input) => true;
 
     
+    public void SetPosition(Vector2Int gridPosition)
+    {
+        // No editing after we have been created
+        if (Created) return;
+
+        GridPosition = gridPosition;
+        transform.position = World.GridToWorldPosition(gridPosition);
+    }
+
     public void SetRotation(Direction newUp)
     {
+        // No editing after we have been created
+        if (Created) return;
+
         // Set our rotation both in data and graphically
         Rotation = newUp;
         transform.rotation = Quaternion.Euler(0, 0, newUp.ToDegrees());

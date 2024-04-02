@@ -44,7 +44,7 @@ public class World : MonoBehaviour
     void SpawnTile(Vector2Int gridPosition, ProductID product, Transform holder)
     {
         // Convert the grid coordinate to actual world space
-        Vector2 tileWorldPosition = (Vector2)gridPosition * worldTileSize + GetWorldOffset();
+        Vector2 tileWorldPosition = _GridToWorldPosition(gridPosition);
         // Spawn and scale the tile
         GameObject spawnedTile = Instantiate(worldTilePrefab, tileWorldPosition, Quaternion.identity, holder);
         spawnedTile.transform.localScale = Vector3.one * worldTileSize;
@@ -97,6 +97,22 @@ public class World : MonoBehaviour
     /// <returns></returns>
     public static ProductID GetResourceType(Vector2Int position) => instance.worldTiles[position].Product;
 
+    /// <summary>
+    /// Returns the center of the grid cell at <paramref name="gridPosition"/>.
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <returns></returns>
+    public static Vector2 GridToWorldPosition(Vector2Int gridPosition)
+    {
+        return instance._GridToWorldPosition(gridPosition);
+    }
+
+    // Local function so gizmos won't complain about the singleton
+    Vector2 _GridToWorldPosition(Vector2Int gridPosition)
+    {
+        return (Vector2)gridPosition * worldTileSize + GetWorldOffset();
+    }
+
 
     private void OnDrawGizmos()
     {
@@ -113,7 +129,7 @@ public class World : MonoBehaviour
                 ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
 
                 Gizmos.color = GetProductColour(product);
-                Vector2 tileWorldPosition = (Vector2)position * worldTileSize + GetWorldOffset();
+                Vector2 tileWorldPosition = _GridToWorldPosition(position);
                 Gizmos.DrawWireCube(tileWorldPosition, Vector2.one * (worldTileSize * 0.95f));
             }
         }
