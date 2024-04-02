@@ -10,6 +10,8 @@ public class BuildingPlacer : MonoBehaviour
 
     Vector2 CursorPosition => mainCam.ScreenToWorldPoint(Input.mousePosition);
 
+    public bool Placing => currentGhost != null;
+
     private void Start()
     {
         mainCam = Camera.main;
@@ -63,8 +65,13 @@ public class BuildingPlacer : MonoBehaviour
         {
             if (World.PlaceBuilding(currentGhost))
             {
+                BuildingType currentType = currentGhost.Type;
+                Direction rotation = currentGhost.Rotation;
                 currentGhost = null; // We did it, huzzah
-                IOGraphic.SetVisibility(false); // Turn off IO graphics
+
+                StartPlacement(currentType); // Start placing again
+                currentGhost.SetRotation(rotation); // Keep the same rotation
+                //IOGraphic.SetVisibility(false); // Turn off IO graphics
                 return;
             }
         }

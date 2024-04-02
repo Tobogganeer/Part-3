@@ -34,7 +34,12 @@ public class Toolbar : MonoBehaviour
         for (int i = 0; i < NumKeys.Length; i++)
         {
             if (Input.GetKeyDown(NumKeys[i]))
+            {
                 buildingButtons[i].OnClicked();
+                // If we just deactivated a building, activate our desired building
+                if (!buildingPlacer.Placing)
+                    buildingButtons[i].OnClicked();
+            }
         }
     }
 }
