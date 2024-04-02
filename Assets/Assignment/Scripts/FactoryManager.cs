@@ -21,15 +21,31 @@ public class FactoryManager : MonoBehaviour
     public SerializableDictionary<BuildingType, GameObject> buildingPrefabs;
     public List<Goal> goals;
 
+    int currentGoal = 0;
+
     public static HashSet<BuildingType> GetCurrentlyUnlockedBuildings()
     {
-        // TODO: Actually implement
+        // Start with miner and outbox by default
+        HashSet<BuildingType> unlocked = new HashSet<BuildingType>
+        {
+            BuildingType.Miner,
+            BuildingType.Outbox
+        };
 
-        // For testing purposes just have all buildings unlocked
-        HashSet<BuildingType> unlocked =
-            new HashSet<BuildingType>((BuildingType[])System.Enum.GetValues(typeof(BuildingType)));
+        // Go up to our currently unlocked goal
+        for (int i = 0; i < Mathf.Min(Instance.currentGoal, Instance.goals.Count); i++)
+            unlocked.Add(Instance.goals[i].unlockedBuildingType);
+
+        // Give both undergrounds at the same time
+        if (unlocked.Contains(BuildingType.UndergroundInput))
+            unlocked.Add(BuildingType.UndergroundOutput);
 
         return unlocked;
+    }
+
+    public static void OnProductOutboxed(Product product)
+    {
+
     }
 }
 
