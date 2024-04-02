@@ -210,7 +210,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldTilePrefab: {fileID: 3230953443224739997, guid: 82e2b8467263fbb4688a172ac938b5ea, type: 3}
   worldTileSize: 1
-  worldSize: {x: 5, y: 5}
+  worldSize: {x: 20, y: 10}
+  worldPositionOffset: {x: 0, y: 0}
   resourceLocations:
     _values:
     - key: {x: 0, y: 0}
@@ -295,7 +296,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
