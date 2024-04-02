@@ -129,13 +129,23 @@ public class World : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns the closest grid position to the <paramref name="worldPosition"/>.
+    /// Returns the grid position of the <paramref name="worldPosition"/>.
     /// </summary>
     /// <param name="worldPosition"></param>
     /// <returns></returns>
     public static Vector2Int WorldToGridPosition(Vector2 worldPosition)
     {
         return instance._WorldToGridPosition(worldPosition);
+    }
+
+    /// <summary>
+    /// Returns true if the <paramref name="gridPosition"/> is in placeable area.
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <returns></returns>
+    public static bool IsPositionInWorld(Vector2Int gridPosition)
+    {
+        return instance._IsPositionInWorld(gridPosition);
     }
 
     // Local function so gizmos won't complain about the singleton
@@ -146,10 +156,13 @@ public class World : MonoBehaviour
 
     Vector2Int _WorldToGridPosition(Vector2 worldPosition)
     {
-        // Make sure the position is a valid grid position
-        Vector2Int gridPosition = Vector2Int.RoundToInt((worldPosition / worldTileSize) - GetWorldOffset());
-        gridPosition.Clamp(Vector2Int.zero, worldSize - Vector2Int.one);
-        return gridPosition;
+        return Vector2Int.RoundToInt((worldPosition / worldTileSize) - GetWorldOffset());
+    }
+
+    bool _IsPositionInWorld(Vector2Int gridPosition)
+    {
+        return gridPosition.x >= 0 && gridPosition.x < worldSize.x &&
+            gridPosition.y >= 0 && gridPosition.x < worldSize.y;
     }
 
 
