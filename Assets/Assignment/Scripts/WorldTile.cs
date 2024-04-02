@@ -5,7 +5,7 @@ using UnityEngine;
 public class WorldTile : MonoBehaviour
 {
     public ProductID Product { get; set; }
-    public Vector2Int GridPosition;
+    public Vector2Int GridPosition { get; set; }
 
     // Called by the World when it spawns this tile
     public void Init(ProductID product, Vector2Int gridPosition)

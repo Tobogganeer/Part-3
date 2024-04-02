@@ -153,7 +153,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileSprites:
-    _values: []
+    _values:
+    - key: 0
+      value: {fileID: 21300000, guid: 0a9e5bf912c84c649acc746f238ade74, type: 3}
+    - key: 1
+      value: {fileID: 21300000, guid: 64a4d9aef103cd848b3d47f7751f3227, type: 3}
+    - key: 2
+      value: {fileID: 21300000, guid: 6d7bf881b82fc81439e842e5c1548ea4, type: 3}
+    - key: 3
+      value: {fileID: 21300000, guid: c4001a387f5626d428ea7ac08c024852, type: 3}
+    - key: 4
+      value: {fileID: 21300000, guid: afdf1dcf311583e4298011bf8494c003, type: 3}
 --- !u!4 &658912151
 Transform:
   m_ObjectHideFlags: 0
@@ -161,6 +171,61 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658912149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &958563033
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 958563035}
+  - component: {fileID: 958563034}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &958563034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958563033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccef28c1502137f4bb25d83e361b4728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldTilePrefab: {fileID: 3230953443224739997, guid: 82e2b8467263fbb4688a172ac938b5ea, type: 3}
+  worldTileSize: 1
+  worldSize: {x: 5, y: 5}
+  resourceLocations:
+    _values:
+    - key: {x: 0, y: 0}
+      value: 1
+    - key: {x: 0, y: 1}
+      value: 2
+    - key: {x: 4, y: 4}
+      value: 3
+--- !u!4 &958563035
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958563033}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -267,3 +332,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1195269465}
   - {fileID: 658912151}
+  - {fileID: 958563035}
