@@ -5,7 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Objects/Building Descriptor")]
 public class BuildingDescriptor : ScriptableObject
 {
-    
+    public Vector2Int size;
+    public TileDescriptor[] tiles;
+    public BuildingType type;
+    public Sprite sprite;
 }
 
 /*

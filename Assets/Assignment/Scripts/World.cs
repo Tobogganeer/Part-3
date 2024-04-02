@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class World : MonoBehaviour
 {
@@ -19,9 +20,9 @@ public class World : MonoBehaviour
     // All tiles in the world
     Dictionary<Vector2Int, WorldTile> worldTiles = new Dictionary<Vector2Int, WorldTile>();
     // All buildings in the world
-    Dictionary<Vector2Int, FactoryBuilding> buildings = new Dictionary<Vector2Int, FactoryBuilding>();
+    List<FactoryBuilding> buildings = new List<FactoryBuilding>();
     // For multi-tile buildings - store what buildings occupy each world tile
-    Dictionary<WorldTile, FactoryBuilding> tileToBuilding = new Dictionary<WorldTile, FactoryBuilding>();
+    Dictionary<Vector2Int, FactoryBuilding> tileToBuilding = new Dictionary<Vector2Int, FactoryBuilding>();
 
     private void Start()
     {
@@ -44,7 +45,7 @@ public class World : MonoBehaviour
     void SpawnTile(Vector2Int gridPosition, ProductID product, Transform holder)
     {
         // Convert the grid coordinate to actual world space
-        Vector2 tileWorldPosition = (Vector2)gridPosition * worldTileSize + GetWorldOffset();
+        Vector2 tileWorldPosition = _GridToWorldPosition(gridPosition);
         // Spawn and scale the tile
         GameObject spawnedTile = Instantiate(worldTilePrefab, tileWorldPosition, Quaternion.identity, holder);
         spawnedTile.transform.localScale = Vector3.one * worldTileSize;
@@ -62,22 +63,124 @@ public class World : MonoBehaviour
         return worldPositionOffset - halfWorldSize + halfTileSize;
     }
 
-    public static bool CanPlaceBuilding(Vector2Int gridPosition, FactoryBuilding building)
+    /// <summary>
+    /// Returns true if the <paramref name="building"/> is in a valid area to be placed.
+    /// </summary>
+    /// <param name="building"></param>
+    /// <returns></returns>
+    public static bool CanPlaceBuilding(FactoryBuilding building)
     {
-        // TODO: Check building's tiles
-        throw new System.NotImplementedException();
+        List<WorldTile> worldTiles = new List<WorldTile>();
+
+        foreach (Tile tile in building.Tiles)
+        {
+            // Check if each tile on the building is out of bounds
+            if (!instance.worldTiles.TryGetValue(tile.GridPosition, out WorldTile wt))
+                return false;
+            worldTiles.Add(wt);
+        }
+
+        // Make sure all tiles don't have buildings and that this position is agreeable to the building
+        return building.CanBePlacedOn(worldTiles) && worldTiles.All((tile) => !tile.HasBuilding());
     }
 
-    public static void PlaceBuilding(Vector2Int gridPosition, FactoryBuilding building)
+    /// <summary>
+    /// Attempts to place the <paramref name="building"/> in the world.
+    /// </summary>
+    /// <param name="building"></param>
+    /// <returns>Whether or not the building could be placed</returns>
+    public static bool PlaceBuilding(FactoryBuilding building)
     {
-        // TODO: Place building
-        throw new System.NotImplementedException();
+        if (!CanPlaceBuilding(building))
+            return false;
+
+        building.Place();
+
+        // Add the building's info to our vaults
+        instance.buildings.Add(building);
+        foreach (Tile tile in building.Tiles)
+            instance.tileToBuilding[tile.GridPosition] = building;
+
+        return true;
     }
 
+    /// <summary>
+    /// Removes the <paramref name="building"/> from the world and destroys it.
+    /// </summary>
+    /// <param name="building"></param>
     public static void RemoveBuilding(FactoryBuilding building)
     {
-        // TODO: Remove building and tiles
-        throw new System.NotImplementedException();
+        // Obliterate that structure
+        Destroy(building.gameObject);
+
+        // Expunge the building's data
+        instance.buildings.Remove(building);
+        foreach (Tile tile in building.Tiles)
+            instance.tileToBuilding.Remove(tile.GridPosition);
+    }
+
+    /// <summary>
+    /// Does the <paramref name="position"/> have a building tile on it?
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public static bool HasBuilding(Vector2Int gridPosition) => instance.tileToBuilding.ContainsKey(gridPosition);
+
+    /// <summary>
+    /// Returns the resource type, if any, at <paramref name="position"/>.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <returns></returns>
+    public static ProductID GetResourceType(Vector2Int gridPosition) => GetWorldTile(gridPosition).Product;
+
+    public static WorldTile GetWorldTile(Vector2Int gridPosition) => instance.worldTiles[gridPosition];
+
+
+    /// <summary>
+    /// Returns the center of the grid cell at <paramref name="gridPosition"/>.
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <returns></returns>
+    public static Vector2 GridToWorldPosition(Vector2Int gridPosition)
+    {
+        return instance._GridToWorldPosition(gridPosition);
+    }
+
+    /// <summary>
+    /// Returns the grid position of the <paramref name="worldPosition"/>.
+    /// </summary>
+    /// <param name="worldPosition"></param>
+    /// <returns></returns>
+    public static Vector2Int WorldToGridPosition(Vector2 worldPosition)
+    {
+        return instance._WorldToGridPosition(worldPosition);
+    }
+
+    /// <summary>
+    /// Returns true if the <paramref name="gridPosition"/> is in placeable area.
+    /// </summary>
+    /// <param name="gridPosition"></param>
+    /// <returns></returns>
+    public static bool IsPositionInWorld(Vector2Int gridPosition)
+    {
+        return instance._IsPositionInWorld(gridPosition);
+    }
+
+    // Local function so gizmos won't complain about the singleton
+    Vector2 _GridToWorldPosition(Vector2Int gridPosition)
+    {
+        return (Vector2)gridPosition * worldTileSize + GetWorldOffset();
+    }
+
+    Vector2Int _WorldToGridPosition(Vector2 worldPosition)
+    {
+        return Vector2Int.RoundToInt((worldPosition / worldTileSize) - GetWorldOffset());
+    }
+
+    bool _IsPositionInWorld(Vector2Int gridPosition)
+    {
+        return gridPosition.x >= 0 && gridPosition.x < worldSize.x &&
+            gridPosition.y >= 0 && gridPosition.x < worldSize.y;
     }
 
 
@@ -96,7 +199,7 @@ public class World : MonoBehaviour
                 ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
 
                 Gizmos.color = GetProductColour(product);
-                Vector2 tileWorldPosition = (Vector2)position * worldTileSize + GetWorldOffset();
+                Vector2 tileWorldPosition = _GridToWorldPosition(position);
                 Gizmos.DrawWireCube(tileWorldPosition, Vector2.one * (worldTileSize * 0.95f));
             }
         }
