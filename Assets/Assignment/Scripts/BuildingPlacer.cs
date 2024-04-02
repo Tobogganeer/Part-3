@@ -38,7 +38,13 @@ public class BuildingPlacer : MonoBehaviour
 
         // Place the building on left click
         if (Input.GetKeyDown(KeyCode.Mouse0))
-            TryPlaceGhost();
+        {
+            if (World.PlaceBuilding(currentGhost))
+            {
+                currentGhost = null; // We did it, huzzah
+                return;
+            }
+        }
         // ... and cancel placement on right click
         else if (Input.GetKeyDown(KeyCode.Mouse1))
         {
@@ -53,12 +59,6 @@ public class BuildingPlacer : MonoBehaviour
 
         // Make it follow the mouse
         currentGhost.SetPosition(World.WorldToGridPosition(CursorPosition));
-    }
-
-    void TryPlaceGhost()
-    {
-        if (World.PlaceBuilding(currentGhost))
-            currentGhost = null; // We did it, huzzah
     }
 
     public void CancelPlacement()
