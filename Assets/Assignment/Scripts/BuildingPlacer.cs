@@ -29,6 +29,8 @@ public class BuildingPlacer : MonoBehaviour
             currentGhost = Instantiate(buildingPrefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
             currentGhost.Init(buildingType);
             framesSinceStartedPlacement = 0;
+
+            IOGraphic.SetVisibility(true); // Turn on IO graphics so we can line things up
         }
     }
 
@@ -64,6 +66,7 @@ public class BuildingPlacer : MonoBehaviour
             if (World.PlaceBuilding(currentGhost))
             {
                 currentGhost = null; // We did it, huzzah
+                IOGraphic.SetVisibility(false); // Turn off IO graphics
                 return;
             }
         }
@@ -89,6 +92,7 @@ public class BuildingPlacer : MonoBehaviour
         {
             Destroy(currentGhost.gameObject);
             currentGhost = null;
+            IOGraphic.SetVisibility(false); // Turn off IO graphics
         }
     }
 }

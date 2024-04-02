@@ -10,7 +10,13 @@ public class FactoryManager : MonoBehaviour
         Instance = this;
     }
 
+    public GameObject tileInputPrefab;
+    public GameObject tileOutputPrefab;
+    public GameObject productObjectPrefab;
+
+    [Space]
     public SerializableDictionary<ProductID, Sprite> tileSprites;
+    public SerializableDictionary<ProductID, Sprite> productSprites;
     public SerializableDictionary<BuildingType, BuildingDescriptor> buildings;
 
 

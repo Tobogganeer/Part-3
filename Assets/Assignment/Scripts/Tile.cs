@@ -16,6 +16,8 @@ public class Tile
     public TileOutput[] Outputs { get; private set; }
     public FactoryBuilding Building { get; private set; }
 
+    private GameObject[] ioGraphics; // Arrows showing input and output
+
     public Tile(FactoryBuilding building, TileDescriptor descriptor)
     {
         this.descriptor = descriptor;
@@ -23,11 +25,26 @@ public class Tile
         Inputs = new TileInput[descriptor.inputs.Length];
         Outputs = new TileOutput[descriptor.outputs.Length];
 
+        List<TileIO> io = new List<TileIO>();
+
         // Create the inputs and outputs
         for (int i = 0; i < descriptor.inputs.Length; i++)
             Inputs[i] = new TileInput(descriptor.inputs[i], this);
         for (int i = 0; i < descriptor.outputs.Length; i++)
             Outputs[i] = new TileOutput(descriptor.outputs[i], this);
+
+        io.AddRange(Inputs);
+        io.AddRange(Outputs);
+        ioGraphics = new GameObject[io.Count];
+
+        // Spawn little arrows for each of our inputs and outputs
+        for (int i = 0; i < io.Count; i++)
+        {
+            Quaternion rotation = io[i].GetCurrentDirection().ToRotation();
+            GameObject prefab = io[i] is TileInput ? FactoryManager.Instance.tileInputPrefab : FactoryManager.Instance.tileOutputPrefab;
+            ioGraphics[i] = Object.Instantiate(prefab, Vector3.zero, rotation, Building.transform);
+            ioGraphics[i].transform.localPosition = (Vector2)GridPosition;
+        }
     }
 
     /// <summary>
@@ -77,6 +94,12 @@ public class Tile
             }
         }
         return false;
+    }
+
+
+    public bool TryGetNeighbour(Direction direction, out Tile neighbour)
+    {
+        return World.TryGetBuildingTile(GridPosition + direction.Offset(), out neighbour);
     }
 }
 

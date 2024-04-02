@@ -23,6 +23,7 @@ public class World : MonoBehaviour
     List<FactoryBuilding> buildings = new List<FactoryBuilding>();
     // For multi-tile buildings - store what buildings occupy each world tile
     Dictionary<Vector2Int, FactoryBuilding> tileToBuilding = new Dictionary<Vector2Int, FactoryBuilding>();
+    Dictionary<Vector2Int, Tile> gridPositionToTile = new Dictionary<Vector2Int, Tile>();
 
     private void Start()
     {
@@ -99,7 +100,10 @@ public class World : MonoBehaviour
         // Add the building's info to our vaults
         instance.buildings.Add(building);
         foreach (Tile tile in building.Tiles)
+        {
             instance.tileToBuilding[tile.GridPosition] = building;
+            instance.gridPositionToTile[tile.GridPosition] = tile;
+        }
 
         return true;
     }
@@ -116,7 +120,10 @@ public class World : MonoBehaviour
         // Expunge the building's data
         instance.buildings.Remove(building);
         foreach (Tile tile in building.Tiles)
+        {
             instance.tileToBuilding.Remove(tile.GridPosition);
+            instance.gridPositionToTile.Remove(tile.GridPosition);
+        }
     }
 
     /// <summary>
@@ -137,6 +144,9 @@ public class World : MonoBehaviour
     public static ProductID GetResourceType(Vector2Int gridPosition) => GetWorldTile(gridPosition).Product;
 
     public static WorldTile GetWorldTile(Vector2Int gridPosition) => instance.worldTiles[gridPosition];
+
+    public static bool TryGetBuildingTile(Vector2Int gridPosition, out Tile tile)
+        => instance.gridPositionToTile.TryGetValue(gridPosition, out tile);
 
 
     /// <summary>

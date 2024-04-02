@@ -2,45 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TileOutput
+public class TileOutput : TileIO
 {
-    Direction direction;
-    Tile tile;
-
-    public TileOutput(Direction direction, Tile tile)
-    {
-        this.tile = tile;
-        this.direction = direction;
-    }
+    public TileOutput(Direction direction, Tile tile) : base(direction, tile) { }
 
     public bool CanOutput(Product product)
     {
-        // TODO: Check world for nearby buildings
-        throw new System.NotImplementedException();
-        //return tile.Building.WillAccept(product, this);
-    }
-
-    public void Output(Product product)
-    {
-        //tile.Building.OnInput(product, this);
+        // Check if we have a neighbour with an input that we can give our product to
+        return TryGetNeighbourInput(GetCurrentDirection(), out TileInput input) && input.CanInput(product);
     }
 
     /// <summary>
-    /// Returns the current direction, taking the building's rotation into account.
+    /// Output the <paramref name="product"/> to the neighbouring tile.
     /// </summary>
-    /// <returns></returns>
-    public Direction GetCurrentDirection()
+    /// <param name="product"></param>
+    /// <returns>Whether or not the product was output successfully</returns>
+    public bool Output(Product product)
     {
-        return direction.RotateTo(tile.Building.Rotation);
+        // Check if it is valid
+        if (CanOutput(product))
+            return false;
+
+        // Get the neighbour and send it
+        return TryGetNeighbourInput(GetCurrentDirection(), out TileInput input) && input.Input(product);
     }
 
-    /// <summary>
-    /// Returns the direction as if the building was facing up.
-    /// </summary>
-    /// <returns></returns>
-    public Direction GetStandardDirection()
+    bool TryGetNeighbourInput(Direction dir, out TileInput input)
     {
-        return direction;
+        input = null;
+        // If we have a neighbour, try to get the input in the correct direction
+        return tile.TryGetNeighbour(dir, out Tile neighbour) && neighbour.TryGetInput(dir.Opposite(), out input);
     }
 }
 

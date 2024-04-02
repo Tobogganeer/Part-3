@@ -55,6 +55,16 @@ public static class DirectionExtensions
         return -(int)direction * 90f;
     }
 
+    /// <summary>
+    /// Returns the direction as a Quaternion rotation.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public static Quaternion ToRotation(this Direction direction)
+    {
+        return Quaternion.Euler(0f, 0f, direction.ToDegrees());
+    }
+
     public static Direction Opposite(this Direction direction)
     {
         // If it's stupid but it works then it ain't stupid
@@ -74,6 +84,23 @@ public static class DirectionExtensions
             Direction.Down => -v, // Flip it
             Direction.Left => new Vector2Int(-v.y, v.x),
             _ => v
+        };
+    }
+
+    /// <summary>
+    /// Returns a vector pointing in this direction.
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
+    public static Vector2Int Offset(this Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Up => Vector2Int.up,
+            Direction.Right => Vector2Int.right,
+            Direction.Down => Vector2Int.down,
+            Direction.Left => Vector2Int.left,
+            _ => Vector2Int.zero
         };
     }
 }

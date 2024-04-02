@@ -2,9 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Product
 {
-    
+    // Allow these to be serialized in the inspector
+    [field: SerializeField]
+    public ProductID ID { get; private set; }
+    [field: SerializeField]
+    public int Amount { get; private set; }
+
+    public Product(ProductID id, int amount)
+    {
+        ID = id;
+        Amount = amount;
+    }
+
+    /// <summary>
+    /// Spawns a GameObject to display this product.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public ProductObject SpawnObject(Vector3 position, float size = 0.9f) => ProductObject.Spawn(ID, position, size);
 }
 
 public enum ProductID
@@ -18,11 +37,11 @@ public enum ProductID
 
     // Primary products (all amounts are tbd)
     /// <summary>
-    /// Recipe: Can + Tomato
+    /// Recipe: Tomato
     /// </summary>
     Sauce,
     /// <summary>
-    /// Recipe: Tomato
+    /// Recipe: Can + Tomato
     /// </summary>
     CannedTomatoes,
     /// <summary>
@@ -57,10 +76,6 @@ public enum ProductID
     /// Recipe: Dough + Water
     /// </summary>
     Bread,
-    /// <summary>
-    /// Recipe: Juice + Can
-    /// </summary>
-    CannedJuice,
 
     // Legendary item
     /// <summary>
