@@ -818,6 +818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileInputPrefab: {fileID: 3089946288690754886, guid: 7acfef43083abc3499381d42216a3a9b, type: 3}
   tileOutputPrefab: {fileID: 3153938255706524674, guid: 4ffb81ff24334184c80788055e13a787, type: 3}
+  productObjectPrefab: {fileID: 170703869027343911, guid: 23f613c7583ce6148bfe05638326da9f, type: 3}
   tileSprites:
     _values:
     - key: 0

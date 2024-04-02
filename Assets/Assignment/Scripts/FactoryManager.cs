@@ -12,6 +12,7 @@ public class FactoryManager : MonoBehaviour
 
     public GameObject tileInputPrefab;
     public GameObject tileOutputPrefab;
+    public GameObject productObjectPrefab;
 
     [Space]
     public SerializableDictionary<ProductID, Sprite> tileSprites;

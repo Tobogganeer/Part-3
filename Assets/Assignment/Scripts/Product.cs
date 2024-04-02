@@ -16,6 +16,14 @@ public class Product
         ID = id;
         Amount = amount;
     }
+
+    /// <summary>
+    /// Spawns a GameObject to display this product.
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public ProductObject SpawnObject(Vector3 position, float size = 0.9f) => ProductObject.Spawn(ID, position, size);
 }
 
 public enum ProductID
