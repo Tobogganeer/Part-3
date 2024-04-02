@@ -2,9 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Product
 {
-    
+    // Allow these to be serialized in the inspector
+    [field: SerializeField]
+    public ProductID ID { get; private set; }
+    [field: SerializeField]
+    public int Amount { get; private set; }
+
+    public Product(ProductID id, int amount)
+    {
+        ID = id;
+        Amount = amount;
+    }
 }
 
 public enum ProductID
