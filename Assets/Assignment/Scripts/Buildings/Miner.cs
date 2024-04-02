@@ -10,6 +10,12 @@ public class Miner : FactoryBuilding
 
     List<WorldTile> resourceTiles;
 
+    protected override void Start()
+    {
+        base.Start();
+        outputSpriteRenderer.sprite = null; // Hide the placeholder circle
+    }
+
     public override void Place()
     {
         base.Place();
