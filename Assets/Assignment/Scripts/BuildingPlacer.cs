@@ -70,7 +70,7 @@ public class BuildingPlacer : MonoBehaviour
                 currentGhost = null; // We did it, huzzah
 
                 StartPlacement(currentType); // Start placing again
-                currentGhost.SetRotation(rotation); // Keep the same rotation
+                StartCoroutine(RotateNewGhost(rotation)); // Keep the same rotation
                 //IOGraphic.SetVisibility(false); // Turn off IO graphics
                 return;
             }
@@ -89,6 +89,13 @@ public class BuildingPlacer : MonoBehaviour
 
         // Make it follow the mouse
         currentGhost.SetPosition(World.WorldToGridPosition(CursorPosition));
+    }
+
+    IEnumerator RotateNewGhost(Direction rotation)
+    {
+        // Wait a frame for the building to initialize
+        yield return null;
+        currentGhost.SetRotation(rotation); 
     }
 
     public void CancelPlacement()
