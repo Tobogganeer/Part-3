@@ -18,9 +18,6 @@ public class World : MonoBehaviour
 
     private void Start()
     {
-        // Create an object to hold all of our tiles (instead of spewing them all over the heirarchy)
-        Transform tileHolder = new GameObject("World Tiles").transform;
-
         for (int x = 0; x < worldSize.x; x++)
         {
             for (int y = 0; y < worldSize.y; y++)
@@ -31,8 +28,8 @@ public class World : MonoBehaviour
                 // Fetch the resource (if it exists)
                 ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
                 
-                // Spawn the tile
-                SpawnTile(position, product, tileHolder);
+                // Spawn the tile as a child of us
+                SpawnTile(position, product, transform);
             }
         }
     }
