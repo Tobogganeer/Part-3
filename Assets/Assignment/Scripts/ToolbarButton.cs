@@ -20,10 +20,10 @@ public class ToolbarButton : MonoBehaviour
         // Register the click in code to save a few clicks in editor
         GetComponent<Button>().onClick.AddListener(OnClicked);
         // Set the button's icon
-        buildingIcon.sprite = FactoryManager.Instance.buildings.dict[buildingType].sprite;
+        buildingIcon.sprite = FactoryManager.Instance.buildings[buildingType].sprite;
     }
 
-    void OnClicked()
+    public void OnClicked()
     {
         if (unlocked)
             toolbar.BuildingButtonPressed(buildingType);

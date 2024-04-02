@@ -17,6 +17,8 @@ public class Product
         Amount = amount;
     }
 
+    public Product(ProductID id) : this(id, 1) { }
+
     /// <summary>
     /// Spawns a GameObject to display this product.
     /// </summary>

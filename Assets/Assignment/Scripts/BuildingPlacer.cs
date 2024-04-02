@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class BuildingPlacer : MonoBehaviour
 {
-    public GameObject buildingPrefab;
-
     FactoryBuilding currentGhost;
     Camera mainCam;
     int framesSinceStartedPlacement;
 
     Vector2 CursorPosition => mainCam.ScreenToWorldPoint(Input.mousePosition);
+
+    public bool Placing => currentGhost != null;
 
     private void Start()
     {
@@ -26,8 +26,8 @@ public class BuildingPlacer : MonoBehaviour
         else
         {
             // Spawn and initialize the building
-            currentGhost = Instantiate(buildingPrefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
-            currentGhost.Init(buildingType);
+            GameObject prefab = FactoryManager.Instance.buildingPrefabs[buildingType];
+            currentGhost = Instantiate(prefab, CursorPosition, Quaternion.identity).GetComponent<FactoryBuilding>();
             framesSinceStartedPlacement = 0;
 
             IOGraphic.SetVisibility(true); // Turn on IO graphics so we can line things up
@@ -65,8 +65,13 @@ public class BuildingPlacer : MonoBehaviour
         {
             if (World.PlaceBuilding(currentGhost))
             {
+                BuildingType currentType = currentGhost.Type;
+                Direction rotation = currentGhost.Rotation;
                 currentGhost = null; // We did it, huzzah
-                IOGraphic.SetVisibility(false); // Turn off IO graphics
+
+                StartPlacement(currentType); // Start placing again
+                StartCoroutine(RotateNewGhost(rotation)); // Keep the same rotation
+                //IOGraphic.SetVisibility(false); // Turn off IO graphics
                 return;
             }
         }
@@ -84,6 +89,13 @@ public class BuildingPlacer : MonoBehaviour
 
         // Make it follow the mouse
         currentGhost.SetPosition(World.WorldToGridPosition(CursorPosition));
+    }
+
+    IEnumerator RotateNewGhost(Direction rotation)
+    {
+        // Wait a frame for the building to initialize
+        yield return null;
+        currentGhost.SetRotation(rotation); 
     }
 
     public void CancelPlacement()

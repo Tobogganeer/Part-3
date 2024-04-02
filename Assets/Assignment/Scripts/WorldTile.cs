@@ -17,7 +17,7 @@ public class WorldTile : MonoBehaviour
     private void Start()
     {
         // Set our sprite
-        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.tileSprites.dict[Product];
+        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.tileSprites[Product];
     }
 
     /// <summary>

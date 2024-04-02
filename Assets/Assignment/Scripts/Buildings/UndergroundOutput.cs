@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class UndergroundOutput : Conveyor
 {
-
+    protected override Direction GetInputDirection(TileInput input)
+    {
+        // Getting input from the UndergroundInput doesn't go through any normal TileInput
+        return input == null ? Outputs[0].GetCurrentDirection().Opposite() : base.GetInputDirection(input);
+    }
 }
 
 /*

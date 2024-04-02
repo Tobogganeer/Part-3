@@ -747,21 +747,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingButtons:
-    _values:
-    - key: 3
-      value: {fileID: 1257863448}
-    - key: 7
-      value: {fileID: 1658280134}
-    - key: 5
-      value: {fileID: 1788101659}
-    - key: 6
-      value: {fileID: 1867507103}
-    - key: 4
-      value: {fileID: 550907839}
-    - key: 2
-      value: {fileID: 1314382132}
-    - key: 1
-      value: {fileID: 1357607485}
+  - {fileID: 1257863448}
+  - {fileID: 1658280134}
+  - {fileID: 1788101659}
+  - {fileID: 1867507103}
+  - {fileID: 550907839}
+  - {fileID: 1314382132}
+  - {fileID: 1357607485}
   buildingPlacer: {fileID: 439546034}
 --- !u!114 &439546034
 MonoBehaviour:
@@ -775,7 +767,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ed0d6e5e18e1f24d8d2726084a32580, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingPrefab: {fileID: 7172965951136198339, guid: 8e4004e2bc53f9d47888b74a026d884e, type: 3}
 --- !u!114 &550907839 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4328914749194579770, guid: e66f8118a71b6c54999da8d2e83ccb6f, type: 3}
@@ -877,6 +868,22 @@ MonoBehaviour:
       value: {fileID: 11400000, guid: 1a4bd9c172e8ad645be243baad65efb4, type: 2}
     - key: 7
       value: {fileID: 11400000, guid: 51801eab457fc3849a966341fdc9a28b, type: 2}
+  buildingPrefabs:
+    _values:
+    - key: 1
+      value: {fileID: 7172965951136198339, guid: cc7622263a6be8c43afe0ad7b6a7b410, type: 3}
+    - key: 2
+      value: {fileID: 7172965951136198339, guid: 782878afcee02c84f8356349346f6be7, type: 3}
+    - key: 3
+      value: {fileID: 7172965951136198339, guid: 129bb5b90e797f34ab8a51599d40cf8b, type: 3}
+    - key: 4
+      value: {fileID: 7172965951136198339, guid: 150de1da81aa1e24283d5f5ed1ac13ee, type: 3}
+    - key: 5
+      value: {fileID: 7172965951136198339, guid: ce2193e50244df648b4c33b5514d222b, type: 3}
+    - key: 6
+      value: {fileID: 7172965951136198339, guid: f3639da505389994d89791efe88d1a45, type: 3}
+    - key: 7
+      value: {fileID: 7172965951136198339, guid: bdc58c134798873408b84d77241dd988, type: 3}
 --- !u!4 &658912151
 Transform:
   m_ObjectHideFlags: 0
@@ -1259,6 +1266,42 @@ MonoBehaviour:
     _values:
     - key: {x: 0, y: 0}
       value: 1
+    - key: {x: 1, y: 0}
+      value: 1
+    - key: {x: 0, y: 1}
+      value: 1
+    - key: {x: 1, y: 1}
+      value: 1
+    - key: {x: 1, y: 2}
+      value: 1
+    - key: {x: 2, y: 1}
+      value: 1
+    - key: {x: 2, y: 2}
+      value: 1
+    - key: {x: 7, y: 6}
+      value: 2
+    - key: {x: 7, y: 7}
+      value: 2
+    - key: {x: 8, y: 7}
+      value: 2
+    - key: {x: 8, y: 8}
+      value: 2
+    - key: {x: 15, y: 8}
+      value: 3
+    - key: {x: 15, y: 7}
+      value: 3
+    - key: {x: 15, y: 6}
+      value: 3
+    - key: {x: 16, y: 7}
+      value: 3
+    - key: {x: 13, y: 2}
+      value: 4
+    - key: {x: 14, y: 2}
+      value: 4
+    - key: {x: 13, y: 1}
+      value: 4
+    - key: {x: 15, y: 3}
+      value: 4
 --- !u!4 &958563035
 Transform:
   m_ObjectHideFlags: 0

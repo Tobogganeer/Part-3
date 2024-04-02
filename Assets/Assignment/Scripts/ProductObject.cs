@@ -9,7 +9,7 @@ public class ProductObject : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.productSprites.dict[id];
+        GetComponent<SpriteRenderer>().sprite = FactoryManager.Instance.productSprites[id];
     }
 
     /// <summary>
@@ -27,6 +27,24 @@ public class ProductObject : MonoBehaviour
         productObj.id = product;
         return productObj;
 
+    }
+
+    /// <summary>
+    /// Spawns a GameObject to display this the <paramref name="product"/>.
+    /// </summary>
+    /// <param name="product"></param>
+    /// <param name="position"></param>
+    /// <param name="size"></param>
+    /// <returns></returns>
+    public static ProductObject Spawn(Product product, Vector3 position, float size = 0.9f)
+        => Spawn(product.ID, position, size);
+
+    /// <summary>
+    /// Fun way to say Destory(gameobject)
+    /// </summary>
+    public void Obliterate()
+    {
+        Destroy(gameObject);
     }
 }
 

@@ -25,6 +25,8 @@ public class World : MonoBehaviour
     Dictionary<Vector2Int, FactoryBuilding> tileToBuilding = new Dictionary<Vector2Int, FactoryBuilding>();
     Dictionary<Vector2Int, Tile> gridPositionToTile = new Dictionary<Vector2Int, Tile>();
 
+    public static float TileSize => instance.worldTileSize; // Usually just 1 thankfully
+
     private void Start()
     {
         for (int x = 0; x < worldSize.x; x++)
@@ -35,7 +37,7 @@ public class World : MonoBehaviour
                 // Did we specify there being a resource to mine here?
                 bool actualResourceHere = resourceLocations.dict.ContainsKey(position);
                 // Fetch the resource (if it exists)
-                ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
+                ProductID product = actualResourceHere ? resourceLocations[position] : ProductID.None;
                 
                 // Spawn the tile as a child of us
                 SpawnTile(position, product, transform);
@@ -71,15 +73,11 @@ public class World : MonoBehaviour
     /// <returns></returns>
     public static bool CanPlaceBuilding(FactoryBuilding building)
     {
-        List<WorldTile> worldTiles = new List<WorldTile>();
+        List<WorldTile> worldTiles = GetWorldTiles(building);
 
-        foreach (Tile tile in building.Tiles)
-        {
-            // Check if each tile on the building is out of bounds
-            if (!instance.worldTiles.TryGetValue(tile.GridPosition, out WorldTile wt))
-                return false;
-            worldTiles.Add(wt);
-        }
+        // Make sure the building is sitting entirely in the world
+        if (worldTiles.Count != building.Tiles.Length)
+            return false;
 
         // Make sure all tiles don't have buildings and that this position is agreeable to the building
         return building.CanBePlacedOn(worldTiles) && worldTiles.All((tile) => !tile.HasBuilding());
@@ -145,6 +143,20 @@ public class World : MonoBehaviour
 
     public static WorldTile GetWorldTile(Vector2Int gridPosition) => instance.worldTiles[gridPosition];
 
+    public static List<WorldTile> GetWorldTiles(FactoryBuilding building)
+    {
+        List<WorldTile> worldTiles = new List<WorldTile>();
+
+        foreach (Tile tile in building.Tiles)
+        {
+            // Add the tile if it exists
+            if (instance.worldTiles.TryGetValue(tile.GridPosition, out WorldTile wt))
+                worldTiles.Add(wt);
+        }
+
+        return worldTiles;
+    }
+
     public static bool TryGetBuildingTile(Vector2Int gridPosition, out Tile tile)
         => instance.gridPositionToTile.TryGetValue(gridPosition, out tile);
 
@@ -209,7 +221,7 @@ public class World : MonoBehaviour
                 // Did we specify there being a resource to mine here?
                 bool actualResourceHere = resourceLocations.dict.ContainsKey(position);
                 // Fetch the resource (if it exists)
-                ProductID product = actualResourceHere ? resourceLocations.dict[position] : ProductID.None;
+                ProductID product = actualResourceHere ? resourceLocations[position] : ProductID.None;
 
                 Gizmos.color = GetProductColour(product);
                 Vector2 tileWorldPosition = _GridToWorldPosition(position);
