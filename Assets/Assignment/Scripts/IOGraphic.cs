@@ -5,7 +5,7 @@ using UnityEngine;
 public class IOGraphic : MonoBehaviour
 {
     static List<IOGraphic> all = new List<IOGraphic>();
-    static bool visible = true;
+    static bool visible;
 
     SpriteRenderer spriteRenderer;
 
