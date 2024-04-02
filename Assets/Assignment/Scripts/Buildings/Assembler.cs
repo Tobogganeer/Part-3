@@ -106,14 +106,14 @@ public class Assembler : FactoryBuilding
         return Products.Where(p => p.ID == ingredient).Select(p => p.Amount).Sum();
     }
 
-    public override void OnInput(Product product, TileInput input)
+    protected override void Tick()
     {
-        base.OnInput(product, input);
-        
         // If we have a recipe and have the necessary requirements
         if (currentRecipe != null && currentRecipe.inputs.All(input => CurrentIngredientCount(input.ID) >= input.Amount))
         {
-            StartCoroutine(Craft());
+            // Make sure we aren't already crafting
+            if (craftCoroutine == null)
+                craftCoroutine = StartCoroutine(Craft());
         }
     }
 
@@ -136,6 +136,7 @@ public class Assembler : FactoryBuilding
         yield return new WaitUntil(() => Outputs.Any(output => output.CanOutput(outputProduct)));
 
         Outputs.First(output => output.CanOutput(outputProduct)).Output(outputProduct);
+        craftCoroutine = null;
     }
 
 }

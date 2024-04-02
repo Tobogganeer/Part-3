@@ -20,6 +20,7 @@ public class RecipeSelectMenu : MonoBehaviour
     {
         justOpened = true;
         menu.SetActive(true);
+        menu.transform.rotation = Quaternion.identity; // Keep it upright when the building rotates
     }
 
     public void RecipeChosen(Recipe recipe)
