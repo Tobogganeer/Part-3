@@ -13,6 +13,7 @@ public class RecipeSelectMenu : MonoBehaviour
     private void Start()
     {
         target = GetComponent<Assembler>();
+        Close();
     }
 
     public void Open()
