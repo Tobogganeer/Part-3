@@ -96,14 +96,15 @@ FactoryBuilding.cs (see subclasses at bottom)
 - Used to mine, transport, process, and outbox items
 - Has a SpriteRenderer and BoxCollider2D (sprite set in inspector)
 - Stores the tiles that make up the building
+- Stores a list of products that are inside the building
 - Pseudocode:
-  - Variables: descriptor, tiles, created
+  - Variables: descriptor, tiles, created, products
   - Properties: inputs, outputs, buildingType
   - virtual Start => create tiles from descriptor.tiles
   - virtual fn Place(position) => set position, set created = true
   - virtual fn Tick()
   - Update => if created call Tick() (only called once the building is actually placed)
-  - virtual fn OnInput(product) => does nothing by default
+  - virtual fn OnInput(product) => adds the product to the list
   - virtual bool WillAccept(product) => returns true by default
   - virtual fn OnMouseDown() => may open menus for certain subclasses (i.e. recipe selector for assemblers)
   - virtual fn CanBePlacedOn(worldTiles) => returns true if all tiles have no buildings on them
@@ -210,9 +211,10 @@ Miner.cs
 - 2x2 tiles
 - 1 output
 - Outputs the resource it is placed on
+- Has a SpriteRenderer for showing the output
 - Pseudocode:
-  - Variables: mineDelay
-  - override fn Place(position) base + start Mine coroutine
+  - Variables: mineDelay, outputSpriteRenderer
+  - override fn Place(position) => base + start Mine coroutine, set outputSpriteRenderer to the resource we are on
   - coroutine Mine() => infinite loop that outputs a resource and waits for mineDelay
   - override fn CanBePlacedOn(worldTiles) => return base fn + check if at least one tile has a resource
 
@@ -222,26 +224,31 @@ Conveyor.cs
 - Just transports an item forward
 - References a SpriteRenderer to display the item
 - Pseudocode:
-  - Variables: transportDelay, hasProduct, itemSpriteRenderer
-  - override WillAccept(product) => returns true if hasProduct is false
-  - override OnInput(product) => starts TransportProduct coroutine
-  - coroutine TransportProduct(product) => hasProduct = true, sets itemSpriteRenderer using FactoryManager dict, waits for transportDelay, waits for valid output, outputs item, hasProduct = false, sets itemSpriteRenderer to nothing
+  - Variables: transportDelay, itemSpriteRenderer
+  - override fn WillAccept(product) => returns true if there are no current products
+  - override fn OnInput(product) => base + starts TransportProduct coroutine
+  - coroutine TransportProduct(product) => sets itemSpriteRenderer using FactoryManager dict, waits for transportDelay, waits for valid output, outputs product, remove product from products list, sets itemSpriteRenderer to nothing
 
 Assembler.cs
 - 2x2 tiles
 - 1 output, 4 inputs
 - Recipe can be set with a GUI
 - Takes in items and creates a new item according to the recipe
+- Has SpriteRenderers for the current recipe's inputs and output
+- Has an attached RecipeSelectMenu
 - Pseudocode:
-  - Variables: 
-  - Pseudocode here
+  - Variables: currentRecipe, inputSprites, outputSprite, const_maxIngredientMultiplier, craftCoroutine
+  - fn UpdateRecipe(newRecipe) => set currentRecipe to newRecipe, update recipe sprites (input and output), destroy current products that dont match the new recipe (wrong type or too many), stop the craftCoroutine if it is running
+  - override fn WillAccept(product) => returns true if the currentRecipe uses that product and there isnt too much of that product (multiply how much the current recipe uses by const_maxIngredientMultiplier)
+  - override fn OnInput(product) => base + check if we have enough products to start crafting - if so start the coroutine
+  - coroutine Craft() => waits for the currentRecipe's craft time, waits for valid output, outputs product, removes used products from products list
 
 UndergroundConveyor.cs
 - 1 tile per end (input and output)
 - Input has an input, output has an output (shocking)
 - Components
 - Pseudocode:
-  - Variables: 
+  - Variables: transportDelayPerTile, maxTilesBetweenEnds
   - Pseudocode here
 
 Splitter.cs
