@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   products:
   - <ID>k__BackingField: 11
-    <Amount>k__BackingField: 100
+    <Amount>k__BackingField: 20
   - <ID>k__BackingField: 12
-    <Amount>k__BackingField: 50
+    <Amount>k__BackingField: 20
   - <ID>k__BackingField: 13
-    <Amount>k__BackingField: 50
+    <Amount>k__BackingField: 20
   unlockedBuildingType: 7
