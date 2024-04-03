@@ -46,8 +46,11 @@ public class BuildingPlacer : MonoBehaviour
             // See if we are hovering over any buildings
             if (World.TryGetBuilding(World.WorldToGridPosition(CursorPosition), out FactoryBuilding building))
             {
-                // Try to remove buildings on right click
-                if (Input.GetKeyDown(KeyCode.Mouse1))
+                // Show what the building is
+                HUD.SetCurrentBuildingText(building.Type);
+
+                // Try to remove buildings while holding right click
+                if (Input.GetKey(KeyCode.Mouse1))
                     World.RemoveBuilding(building);
                 // Try to rotate 1x1 buildings
                 else if (Input.GetKeyDown(KeyCode.R))
@@ -61,7 +64,7 @@ public class BuildingPlacer : MonoBehaviour
     void UpdateGhost()
     {
         // Place the building on left click
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             if (World.PlaceBuilding(currentGhost))
             {

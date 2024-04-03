@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FactoryManager : MonoBehaviour
@@ -8,7 +9,6 @@ public class FactoryManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        Init();
     }
 
     public GameObject tileInputPrefab;
@@ -20,29 +20,74 @@ public class FactoryManager : MonoBehaviour
     public SerializableDictionary<ProductID, Sprite> productSprites;
     public SerializableDictionary<BuildingType, BuildingDescriptor> buildings;
     public SerializableDictionary<BuildingType, GameObject> buildingPrefabs;
-    [SerializeField] private List<Recipe> _recipes;
+    public List<Goal> goals;
 
-    public Dictionary<ProductID, Recipe> recipes;
+    [Space]
+    public Toolbar toolbar;
 
-    void Init()
+    int currentGoal = 0;
+    Dictionary<ProductID, int> currentOutboxes = new Dictionary<ProductID, int>();
+
+
+    private void Start()
     {
-        recipes = new Dictionary<ProductID, Recipe>();
-        foreach (Recipe recipe in _recipes)
-        {
-            // Each recipe only has one output item type
-            recipes.Add(recipe.outputs[0].ID, recipe);
-        }
+        UpdateGoalUI();
     }
 
     public static HashSet<BuildingType> GetCurrentlyUnlockedBuildings()
     {
-        // TODO: Actually implement
+        // Start with miner and outbox by default
+        HashSet<BuildingType> unlocked = new HashSet<BuildingType>
+        {
+            BuildingType.Miner,
+            BuildingType.Outbox
+        };
 
-        // For testing purposes just have all buildings unlocked
-        HashSet<BuildingType> unlocked =
-            new HashSet<BuildingType>((BuildingType[])System.Enum.GetValues(typeof(BuildingType)));
+        // Go up to our currently unlocked goal
+        for (int i = 0; i < Mathf.Min(Instance.currentGoal, Instance.goals.Count); i++)
+            unlocked.Add(Instance.goals[i].unlockedBuildingType);
+
+        // Give both undergrounds at the same time
+        if (unlocked.Contains(BuildingType.UndergroundInput))
+            unlocked.Add(BuildingType.UndergroundOutput);
 
         return unlocked;
+    }
+
+    public static void OnProductOutboxed(Product product)
+    {
+        if (Instance.currentOutboxes.ContainsKey(product.ID))
+            Instance.currentOutboxes[product.ID] += product.Amount;
+        else
+            Instance.currentOutboxes.Add(product.ID, product.Amount);
+
+        Instance.CheckForGoalCompletion();
+        Instance.UpdateGoalUI();
+    }
+
+    public static Dictionary<ProductID, int> GetCurrentOutboxes() => Instance.currentOutboxes;
+
+    void CheckForGoalCompletion()
+    {
+        // We've reached the end
+        if (currentGoal >= goals.Count)
+            // TODO: Add a display on the UI/generate random goals?
+            return;
+
+        // Check if the goal is complete
+        if (goals[currentGoal].products.All(goalProd => 
+            currentOutboxes.TryGetValue(goalProd.ID, out int amt) && amt >= goalProd.Amount))
+        {
+            currentGoal++;
+            toolbar.EnableCurrentlyUnlockedBuildings();
+            currentOutboxes.Clear();
+        }
+    }
+
+    void UpdateGoalUI()
+    {
+        // Give the HUD the current goal, or null if we are done
+        HUD.SetCurrentGoal(currentGoal >= goals.Count ? null : goals[currentGoal]);
     }
 }
 

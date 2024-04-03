@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Outbox : FactoryBuilding
 {
-
+    public override void OnInput(Product product, TileInput input)
+    {
+        base.OnInput(product, input);
+        FactoryManager.OnProductOutboxed(product);
+    }
 }
 
 /*
