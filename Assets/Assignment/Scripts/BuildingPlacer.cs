@@ -46,6 +46,9 @@ public class BuildingPlacer : MonoBehaviour
             // See if we are hovering over any buildings
             if (World.TryGetBuilding(World.WorldToGridPosition(CursorPosition), out FactoryBuilding building))
             {
+                // Show what the building is
+                HUD.SetCurrentBuildingText(building.Type);
+
                 // Try to remove buildings on right click
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                     World.RemoveBuilding(building);

@@ -25,6 +25,8 @@ public class ToolbarButton : MonoBehaviour
 
     public void OnClicked()
     {
+        HUD.SetCurrentBuildingText(buildingType);
+
         if (unlocked)
             toolbar.BuildingButtonPressed(buildingType);
     }

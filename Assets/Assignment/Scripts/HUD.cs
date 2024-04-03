@@ -16,6 +16,9 @@ public class HUD : MonoBehaviour
     public TMP_Text nextUnlockText;
     public GoalUI[] goalUIs;
 
+    [Space]
+    public TMP_Text currentBuildingText;
+
     public static void SetCurrentGoal(Goal goal)
     {
         if (goal == null)
@@ -60,6 +63,11 @@ public class HUD : MonoBehaviour
         BuildingType.UndergroundInput => "Underground Conveyors",
         _ => type.ToString()
     };
+
+    public static void SetCurrentBuildingText(BuildingType type)
+    {
+        instance.currentBuildingText.text = type.ToString();
+    }
 }
 
 /*
