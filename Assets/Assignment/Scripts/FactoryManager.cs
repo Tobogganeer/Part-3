@@ -28,6 +28,12 @@ public class FactoryManager : MonoBehaviour
     int currentGoal = 0;
     Dictionary<ProductID, int> currentOutboxes = new Dictionary<ProductID, int>();
 
+
+    private void Start()
+    {
+        UpdateGoalUI();
+    }
+
     public static HashSet<BuildingType> GetCurrentlyUnlockedBuildings()
     {
         // Start with miner and outbox by default
@@ -69,7 +75,8 @@ public class FactoryManager : MonoBehaviour
             return;
 
         // Check if the goal is complete
-        if (goals[currentGoal].products.All(goalProd => currentOutboxes[goalProd.ID] >= goalProd.Amount))
+        if (goals[currentGoal].products.All(goalProd => 
+            currentOutboxes.TryGetValue(goalProd.ID, out int amt) && amt >= goalProd.Amount))
         {
             currentGoal++;
             toolbar.EnableCurrentlyUnlockedBuildings();
